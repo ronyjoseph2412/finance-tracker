@@ -1,8 +1,9 @@
 import tempData from "@/tempData";
 import staticData from "@/staticData";
 import styles from "./UpperSection.module.css";
-import { Card } from "@mui/material";
+import { Button, Card } from "@mui/material";
 import Transactions from "@/Components/Transactions/Transactions";
+import { AddTransaction } from "./AddTransaction";
 // import { MonthCalendar } from '@mui/x-date-pickers/MonthCalendar';
 
 const trackerCards = tempData.trackerCards;
@@ -45,7 +46,12 @@ export const UpperSection: React.FC<UpperSectionProps> = ({}) => {
             <span className={styles.Name}>{tempData.firstName}!</span>
           </h1>
         </div>
-        <div>MonthPicker [This Month]</div>
+        <div className={styles.ColumnWrapper}>
+          <div>MonthPicker [This Month]</div>
+          <div>
+            <AddTransaction />
+          </div>
+        </div>
       </div>
       <div className={styles.GridWrapper}>
         <div className={[styles.ColWrapper, styles.BroadColumn].join(" ")}>
@@ -59,7 +65,7 @@ export const UpperSection: React.FC<UpperSectionProps> = ({}) => {
           {CalendarComponent()}
         </div>
         <div className={styles.NarrowColumn}>
-            <Transactions page={"Dashboard"} />
+          <Transactions page={"Dashboard"} />
         </div>
       </div>
     </div>

@@ -1,5 +1,7 @@
 import Link from "next/link";
 import styles from "./Navbar.module.css";
+import staticData from "@/staticData";
+const navbarOptions = staticData.navbar.options;
 const Navbar: React.FC = () => {
   return (
     <div className={styles.Wrapper}>
@@ -8,18 +10,15 @@ const Navbar: React.FC = () => {
           <h1>Expense Tracker</h1>
         </div>
         <div className={styles.Links}>
-          <Link className={styles.NavLink} href="/">
-            Home
-          </Link>
-          <Link className={styles.NavLink} href="/about">
-            About
-          </Link>
-          <Link className={styles.NavLink} href="/contact">
-            Contact
-          </Link>
-          <Link className={styles.NavLink} href="/login">
-            User
-          </Link>
+          {navbarOptions.map((option, index) => {
+            if (option.type === "link") {
+              return (
+                <Link href={option.path} key={index} className={styles.NavLink}>
+                  <span>{option.name}</span>
+                </Link>
+              );
+            }
+          })}
         </div>
       </div>
     </div>

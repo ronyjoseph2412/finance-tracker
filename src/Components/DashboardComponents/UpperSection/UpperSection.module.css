@@ -84,3 +84,10 @@
 .NarrowColumn {
     grid-column: span 1 / span 1;
 }
+
+.ColumnWrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
