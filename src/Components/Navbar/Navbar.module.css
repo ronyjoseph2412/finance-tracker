@@ -1,0 +1,41 @@
+.Wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.Container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    width: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: 6rem;
+    padding: 0rem 0rem 0rem 2rem;
+
+}
+
+.Links {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 4rem;
+    gap: 2rem;
+    font-size: 1.6rem;
+}
+
+.NavLink{
+    text-decoration: none;
+    color: #000;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+}
+
+.Logo {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #000;
+    margin-left: 20px;
+}

@@ -1,0 +1,47 @@
+.Wrapper {
+    background-color: #FAFAFA;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    border-radius: 1rem;
+    margin-top: 2rem;
+}
+
+.ColWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+    height: 80vh;
+}
+
+.HeadingColumn{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+
+}
+
+.RowWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 2rem 0rem;
+}
+
+.Heading {
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: #000;
+    margin-left: 0.8rem;
+}
+
+.MarginRight {
+    margin-right: 1.6rem;
+}
