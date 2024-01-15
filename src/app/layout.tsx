@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/lib/Provider";
 import TransitionsModal from "@/Components/Modal/CustomModal";
+import Navbar from "@/Components/Navbar/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +20,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Providers><><TransitionsModal />{children}</></Providers>
+        <Providers>
+          <>
+            <Navbar />
+            <TransitionsModal />
+            {children}
+          </>
+        </Providers>
       </body>
     </html>
   );
