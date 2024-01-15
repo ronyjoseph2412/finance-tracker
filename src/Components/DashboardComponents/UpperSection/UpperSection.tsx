@@ -4,6 +4,7 @@ import styles from "./UpperSection.module.css";
 import { Button, Card } from "@mui/material";
 import Transactions from "@/Components/Transactions/Transactions";
 import { AddTransaction } from "./AddTransaction";
+import TrackingCalendar from "@/Components/Calendar/TrackingCalendar";
 // import { MonthCalendar } from '@mui/x-date-pickers/MonthCalendar';
 
 const trackerCards = tempData.trackerCards;
@@ -11,7 +12,9 @@ const trackerCards = tempData.trackerCards;
 export type UpperSectionProps = {};
 const CalendarComponent = () => {
   return (
-    <div className={styles.ExpenseGraph}>Calendar with Expense on Each Day</div>
+    <div className={styles.ExpenseGraph}>
+      <TrackingCalendar />
+    </div>
   );
 };
 const TrackerCard = (labelType: String, amount = "0.00") => {
