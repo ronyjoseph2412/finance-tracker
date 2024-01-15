@@ -26,7 +26,7 @@
     font-size: 1.6rem;
 }
 
-.NavLink{
+.NavLink {
     text-decoration: none;
     color: #000;
     font-weight: 500;
@@ -37,5 +37,7 @@
     font-size: 2rem;
     font-weight: 700;
     color: #000;
-    margin-left: 20px;
+    margin-left: 0.2rem;
+    display: flex;
+    
 }
