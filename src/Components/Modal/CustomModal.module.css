@@ -1,0 +1,9 @@
+.Wrapper {
+    background-color: #fff;
+    padding: 3rem 1rem;
+    border-radius: 0.8rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
