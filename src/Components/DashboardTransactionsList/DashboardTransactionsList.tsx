@@ -3,9 +3,6 @@ export type DashboardtransactionsListProps = {};
 export const DashboardtransactionsList: React.FC<
   DashboardtransactionsListProps
 > = ({}) => {
-  // console.log({  })
-  // const [, set] = React.useState();
-  // React.useEffect(() => {}, [])
 
   const transaction = (lastIndex: boolean) => {
     return (
