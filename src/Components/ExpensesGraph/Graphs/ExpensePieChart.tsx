@@ -2,7 +2,6 @@
 import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
 import tempData from "@/tempData";
 import { dataModifier } from "@/Utils/dataModifier";
-import styles from "../ExpensesGraph.module.css";
 
 const ExpensePieChart = () => {
   const labelledData = dataModifier(tempData.expenditureData);

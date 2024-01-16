@@ -1,5 +1,6 @@
 import ExpensePieChart from "./Graphs/ExpensePieChart";
 import styles from "./ExpensesGraph.module.css";
+import ExpenseLineChart from "./Graphs/ExpensesLine";
 export type ExpesnesGraphProps = { graphType: string };
 export const ExpesnesGraph: React.FC<ExpesnesGraphProps> = ({ graphType }) => {
   // console.log({  })
@@ -8,7 +9,7 @@ export const ExpesnesGraph: React.FC<ExpesnesGraphProps> = ({ graphType }) => {
   switch (graphType) {
     case "pie":
       return (
-        <div className={styles.PieChartWrapper}>
+        <div className={styles.ChartWrapper}>
           <div className={styles.PieChartHeadingText}>
             Categorywise Expenditure
           </div>
@@ -23,8 +24,9 @@ export const ExpesnesGraph: React.FC<ExpesnesGraphProps> = ({ graphType }) => {
       );
     case "line":
       return (
-        <div>
-          <h1>Line Graph</h1>
+        <div className={styles.ChartWrapper}>
+          <div className={styles.PieChartHeadingText}>Spending Summary</div>
+          <ExpenseLineChart />
         </div>
       );
     default:

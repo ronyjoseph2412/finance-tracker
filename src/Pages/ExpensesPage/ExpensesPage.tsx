@@ -24,7 +24,9 @@ export const ExepensesPage: React.FC<ExepensesPageProps> = ({}) => {
             style={{
               width: "90%",
             }}
-          ></div>
+          >
+            <ExpesnesGraph graphType="line" />
+          </div>
         </div>
       </div>
     </div>
