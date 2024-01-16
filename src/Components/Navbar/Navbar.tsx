@@ -9,15 +9,25 @@ const Navbar: React.FC = () => {
     <div className={styles.Wrapper}>
       <div className={styles.Container}>
         <div className={styles.Logo}>
-          <Image src={Logo} width={250} height={50} style={{
-            borderRadius: "0.4rem",
-          }}  alt="Company Logo" />
+          <Image
+            src={Logo}
+            width={250}
+            height={50}
+            style={{
+              borderRadius: "0.4rem",
+            }}
+            alt="Company Logo"
+          />
         </div>
         <div className={styles.Links}>
           {navbarOptions.map((option, index) => {
             if (option.type === "link") {
               return (
-                <Link href={option.path} key={index} className={styles.NavLink}>
+                <Link
+                  href={option.path}
+                  key={option.name}
+                  className={styles.NavLink}
+                >
                   <span>{option.name}</span>
                 </Link>
               );

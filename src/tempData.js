@@ -1,21 +1,149 @@
 const tempData = {
-    firstName: "Rony",
-    lastName: "Joseph",
-    trackerCards:[
-        {
-            key:"Income",
-            amount:"5000.00"
-        },
-        {
-            key:"Expenses",
-            amount:"2500.00"
-        },
-        {
-            key:"Investments",
-            amount:"2500.00"
-        }
-    ]
-}
+  firstName: "Rony",
+  lastName: "Joseph",
+  trackerCards: [
+    {
+      key: "Income",
+      amount: "5000.00",
+    },
+    {
+      key: "Expenses",
+      amount: "2500.00",
+    },
+    {
+      key: "Investments",
+      amount: "2500.00",
+    },
+  ],
+  expenditureData: [
+    {
+      date: "2022-01-01",
+      business: "Company A",
+      tags: "Groceries",
+      amount: 50,
+    },
+    {
+      date: "2022-01-02",
+      business: "Company B",
+      tags: "Utilities",
+      amount: 100,
+    },
+    { date: "2022-01-03", business: "Person A", tags: "Food", amount: 30 },
+    {
+      date: "2022-01-04",
+      business: "Company C",
+      tags: "Technology",
+      amount: 150,
+    },
+    { date: "2022-01-05", business: "Person B", tags: "Gifts", amount: 80 },
+    {
+      date: "2022-01-06",
+      business: "Company A",
+      tags: "Groceries",
+      amount: 70,
+    },
+    { date: "2022-01-07", business: "Person C", tags: "Food", amount: 40 },
+    {
+      date: "2022-01-08",
+      business: "Company B",
+      tags: "Utilities",
+      amount: 120,
+    },
+    { date: "2022-01-09", business: "Person A", tags: "Food", amount: 60 },
+    {
+      date: "2022-01-10",
+      business: "Company C",
+      tags: "Technology",
+      amount: 200,
+    },
+    { date: "2022-01-11", business: "Person B", tags: "Gifts", amount: 25 },
+    {
+      date: "2022-01-12",
+      business: "Company A",
+      tags: "Groceries",
+      amount: 90,
+    },
+    { date: "2022-01-13", business: "Person C", tags: "Food", amount: 35 },
+    {
+      date: "2022-01-14",
+      business: "Company B",
+      tags: "Utilities",
+      amount: 80,
+    },
+    { date: "2022-01-15", business: "Person A", tags: "Gifts", amount: 50 },
+    {
+      date: "2022-01-16",
+      business: "Company C",
+      tags: "Technology",
+      amount: 110,
+    },
+    { date: "2022-01-17", business: "Person B", tags: "Food", amount: 45 },
+    {
+      date: "2022-01-18",
+      business: "Company A",
+      tags: "Groceries",
+      amount: 75,
+    },
+    { date: "2022-01-19", business: "Person C", tags: "Gifts", amount: 130 },
+    {
+      date: "2022-01-20",
+      business: "Company B",
+      tags: "Utilities",
+      amount: 180,
+    },
+    { date: "2022-01-21", business: "Person A", tags: "Food", amount: 40 },
+    {
+      date: "2022-01-22",
+      business: "Company C",
+      tags: "Technology",
+      amount: 65,
+    },
+    { date: "2022-01-23", business: "Person B", tags: "Gifts", amount: 55 },
+    {
+      date: "2022-01-24",
+      business: "Company A",
+      tags: "Groceries",
+      amount: 95,
+    },
+    {
+      date: "2022-01-25",
+      business: "Person C",
+      tags: "Technology",
+      amount: 120,
+    },
+    {
+      date: "2022-01-26",
+      business: "Company B",
+      tags: "Utilities",
+      amount: 70,
+    },
+    { date: "2022-01-27", business: "Person A", tags: "Gifts", amount: 85 },
+    {
+      date: "2022-01-28",
+      business: "Company C",
+      tags: "Technology",
+      amount: 55,
+    },
+    { date: "2022-01-29", business: "Person B", tags: "Food", amount: 90 },
+    {
+      date: "2022-01-30",
+      business: "Company A",
+      tags: "Groceries",
+      amount: 40,
+    },
+    {
+      date: "2022-01-31",
+      business: "Person C",
+      tags: "Entertainment",
+      amount: 75,
+    },
+    {
+      date: "2022-02-01",
+      business: "Company B",
+      tags: "Healthcare",
+      amount: 110,
+    },
+  ],
+};
 
 export default tempData;
-

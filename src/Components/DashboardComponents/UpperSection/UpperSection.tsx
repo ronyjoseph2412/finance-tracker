@@ -61,7 +61,9 @@ export const UpperSection: React.FC<UpperSectionProps> = ({}) => {
           <div className={styles.RowWrapper}>
             <div className={styles.TrackerWrapper}>
               {trackerCards.map((card) => {
-                return TrackerCard(card.key, card.amount);
+                return (
+                  <div key={card.key}>{TrackerCard(card.key, card.amount)}</div>
+                );
               })}
             </div>
           </div>
