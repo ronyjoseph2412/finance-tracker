@@ -3,6 +3,14 @@ const staticData = {
     message: "Welcome back, ",
     options: ["Income", "Expenses", "Savings"],
   },
+  transactionsFilterOptions: [
+    "This Week",
+    "This Month",
+    "Last Month",
+    "Last 6Mnths",
+    "Last 1 Yr",
+    "Custom Range",
+  ],
   navbar: {
     options: [
       {

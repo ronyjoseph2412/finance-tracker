@@ -2,9 +2,22 @@
 import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
 import tempData from "@/tempData";
 import { dataModifier } from "@/Utils/dataModifier";
+import { filterTransactionsbyDate } from "@/Utils/DatefilterTransactions";
+import { useAppSelector } from "@/lib/hooks";
+import staticData from "@/staticData";
 
 const ExpensePieChart = () => {
-  const labelledData = dataModifier(tempData.expenditureData);
+  const { startDate, endDate, currentFilter } = useAppSelector(
+    (state) => state.transactionsReducer
+  );
+  // console.log(startDate, endDate);
+  const filteredData = filterTransactionsbyDate(
+    tempData.expenditureData,
+    currentFilter === staticData.transactionsFilterOptions[0] ? true : false,
+    startDate ? startDate * 1000 : null,
+    endDate ? endDate * 1000 : new Date().getTime()
+  );
+  const labelledData = dataModifier(filteredData);
   // const totalAmount = labelledData.reduce((acc, curr) => acc + curr.value, 0);
   return (
     <PieChart
