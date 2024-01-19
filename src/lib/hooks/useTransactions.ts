@@ -105,15 +105,16 @@ const updateTimestamps = (timeLabel: string) => {
 // Write a custom hook for updating timestamps
 export const useUpdateTimestamps = () => {
   const dispatch = useDispatch();
-  return (timeLabel?: string, startDate?: string, endDate?: string) => {
+  return (timeLabel?: string | null, startDate?: string, endDate?: string) => {
     if (timeLabel) {
       const updatedTimestamps = updateTimestamps(timeLabel);
       console.log(updatedTimestamps);
       dispatch(updateStartDate(updatedTimestamps.startDate));
       dispatch(updateEndDate(updatedTimestamps.endDate));
     } else if (startDate && endDate) {
-      dispatch(updateStartDate(new Date(startDate).getTime()));
-      dispatch(updateEndDate(new Date(endDate).getTime()));
+      console.log(startDate, endDate);
+      dispatch(updateStartDate(new Date(startDate).getTime() / 1000));
+      dispatch(updateEndDate(new Date(endDate).getTime() / 1000));
     } else {
       return {
         startDate: null,

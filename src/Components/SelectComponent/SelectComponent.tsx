@@ -9,6 +9,8 @@ import styles from "./SelectComponent.module.css";
 import { useDispatch } from "react-redux";
 import { updateCurrentFilter } from "@/lib/transactionsSlice";
 import { useUpdateTimestamps } from "@/lib/hooks/useTransactions";
+import { updatePopUpComponent, updatePopUpState } from "@/lib/popupSlice";
+import { DatePicker } from "../DateRangePicker/DateRangePicker";
 
 const selectStyle = {
   fontWeight: "500",
@@ -54,10 +56,10 @@ export const SelectComponent: React.FC<SelectComponentProps> = ({
   };
 
   useEffect(() => {
-    console.log("age", age);
-    if (age === "Custom") {
-      console.log("Custom");
+    if (age === "Custom Range") {
       dispatch(updateCurrentFilter(age));
+      dispatch(updatePopUpState(true));
+      dispatch(updatePopUpComponent(<DatePicker />));
     } else {
       dispatch(updateCurrentFilter(age));
       handleTimestamps(age);

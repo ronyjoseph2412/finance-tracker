@@ -5,19 +5,31 @@ import { dataModifier } from "@/Utils/dataModifier";
 import { filterTransactionsbyDate } from "@/Utils/DatefilterTransactions";
 import { useAppSelector } from "@/lib/hooks";
 import staticData from "@/staticData";
+import { useEffect, useState } from "react";
 
 const ExpensePieChart = () => {
+  const [labelledData, setLabelledData] = useState<
+    {
+      id: number;
+      label: string;
+      value: number;
+      percentage: string;
+    }[]
+  >([]);
   const { startDate, endDate, currentFilter } = useAppSelector(
     (state) => state.transactionsReducer
   );
-  // console.log(startDate, endDate);
-  const filteredData = filterTransactionsbyDate(
-    tempData.expenditureData,
-    currentFilter === staticData.transactionsFilterOptions[0] ? true : false,
-    startDate ? startDate * 1000 : null,
-    endDate ? endDate * 1000 : new Date().getTime()
-  );
-  const labelledData = dataModifier(filteredData);
+
+  useEffect(() => {
+    console.log(startDate, endDate, currentFilter);
+    const filteredData = filterTransactionsbyDate(
+      tempData.expenditureData,
+      currentFilter === staticData.transactionsFilterOptions[0] ? true : false,
+      startDate ? startDate * 1000 : null,
+      endDate ? endDate * 1000 : new Date().getTime()
+    );
+    setLabelledData(dataModifier(filteredData));
+  }, [startDate, endDate, currentFilter]);
   // const totalAmount = labelledData.reduce((acc, curr) => acc + curr.value, 0);
   return (
     <PieChart
