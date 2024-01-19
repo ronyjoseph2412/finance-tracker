@@ -21,7 +21,6 @@ const ExpensePieChart = () => {
   );
 
   useEffect(() => {
-    console.log(startDate, endDate, currentFilter);
     const filteredData = filterTransactionsbyDate(
       tempData.expenditureData,
       currentFilter === staticData.transactionsFilterOptions[0] ? true : false,

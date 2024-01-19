@@ -73,3 +73,38 @@ export const filterTransactionswithStructure = (
 
   return structuredData;
 };
+
+export const getTransactionsofDay = (data: DataItem[], date: number) => {
+  const filteredData = data.filter((item) => item.date === date);
+  return filteredData;
+};
+
+export const getTransactionsofMonth = (
+  data: DataItem[],
+  month: number,
+  year: number
+) => {
+  const monthStart = new Date(year, month, 1).getTime();
+  const monthEnd = new Date(year, month + 1, 0).getTime();
+  const filteredData = data.filter(
+    (item) => item.date >= monthStart && item.date <= monthEnd
+  );
+
+  const structuredData: {
+    [date: number]: {
+      totalAmount: number;
+    };
+  } = {};
+  filteredData.forEach((item: any) => {
+    const day = new Date(item.date).getDate();
+    if (!structuredData[day]) {
+      structuredData[day] = {
+        totalAmount: item.amount,
+      };
+    } else {
+      structuredData[day].totalAmount += item.amount;
+    }
+  });
+
+  return structuredData;
+};

@@ -1,5 +1,10 @@
 import React from "react";
 import styles from "./TrackingCalendar.module.css";
+import { useUpdateTimestamps } from "@/lib/hooks/useTransactions";
+import staticData from "@/staticData";
+import tempData from "@/tempData";
+import { getTransactionsofMonth } from "@/Utils/DatefilterTransactions";
+import currencySymbol from "@/Utils/currencySymbol";
 
 interface DayData {
   dayNumber: number;
@@ -20,11 +25,18 @@ const daysInMonth = new Date(
 
 const startDayOffset = firstDayOfMonth.getDay();
 
+const filteredData = getTransactionsofMonth(
+  tempData.expenditureData,
+  currentDate.getMonth(),
+  currentDate.getFullYear()
+);
+console.log(filteredData);
+
 const data = Array.from({ length: 42 }, (_, index) => {
   const dayNumber = index + 1 - startDayOffset;
   const isAday = dayNumber >= 1 && dayNumber <= daysInMonth;
   const isFutureDay = isAday && dayNumber > currentDate.getDate() - 1;
-  const amountSpent = isFutureDay ? 0 : Math.floor(Math.random() * 200) + 50;
+  const amountSpent = isFutureDay ? 0 : filteredData[dayNumber]?.totalAmount;
   return {
     dayNumber,
     amountSpent,
@@ -69,7 +81,9 @@ const TrackingCalendar: React.FC<CalendarProps> = ({}) => {
             >
               <div className={styles.dayNumber}>{day.dayNumber}</div>
               {!day.isFutureDay && (
-                <div className={styles.spentAnalysis}>${day.amountSpent}</div>
+                <div className={styles.spentAnalysis}>
+                  {`${currencySymbol.INDIA} ${day.amountSpent}`}
+                </div>
               )}
               {/* {day.amountSpent > 0 && (
           <div

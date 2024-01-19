@@ -1,15 +1,15 @@
 import tempData from "@/tempData";
 import staticData from "@/staticData";
 import styles from "./UpperSection.module.css";
-import { Button, Card } from "@mui/material";
 import Transactions from "@/Components/Transactions/Transactions";
 import { AddTransaction } from "./AddTransaction";
 import TrackingCalendar from "@/Components/Calendar/TrackingCalendar";
-// import { MonthCalendar } from '@mui/x-date-pickers/MonthCalendar';
-
-const trackerCards = tempData.trackerCards;
+import Image, { StaticImageData } from "next/image";
+import { getLabelAmount } from "@/Utils/getLabelAmount";
+const trackerCards = staticData.trackerCards;
 
 export type UpperSectionProps = {};
+
 const CalendarComponent = () => {
   return (
     <div className={styles.ExpenseGraph}>
@@ -17,7 +17,11 @@ const CalendarComponent = () => {
     </div>
   );
 };
-const TrackerCard = (labelType: String, amount = "0.00") => {
+const TrackerCard = (
+  labelType: string,
+  amount: number,
+  image: StaticImageData
+) => {
   return (
     <div className={styles.TrackerCard}>
       <div>{labelType}</div>
@@ -32,25 +36,36 @@ const TrackerCard = (labelType: String, amount = "0.00") => {
                 : "blue",
           }}
         >
-          $ {amount}
+          ₹ {amount}
         </span>
       </div>
+      <Image
+        src={image}
+        alt={`Asset-${labelType}`}
+        className={styles.BackgroundImage}
+      />
     </div>
   );
 };
 
 export const UpperSection: React.FC<UpperSectionProps> = ({}) => {
+  const date = new Date();
+  const month = date.toLocaleString("default", { month: "long" });
   return (
     <div className={styles.Wrapper}>
       <div className={styles.RowWrapper}>
         <div className={styles.WelcomeBack}>
-          <h1>
+          <div>
             {staticData.dashboardPage.message}
             <span className={styles.Name}>{tempData.firstName}!</span>
-          </h1>
+          </div>
+          <div className={styles.OverviewMessage}>{`${
+            staticData.dashboardPage.overview
+          } ${month} of ${date.getFullYear()}`}</div>
         </div>
+
         <div className={styles.ColumnWrapper}>
-          <div>MonthPicker [This Month]</div>
+          {/* <div>MonthPicker [This Month]</div> */}
           <div>
             <AddTransaction />
           </div>
@@ -62,7 +77,13 @@ export const UpperSection: React.FC<UpperSectionProps> = ({}) => {
             <div className={styles.TrackerWrapper}>
               {trackerCards.map((card) => {
                 return (
-                  <div key={card.key}>{TrackerCard(card.key, card.amount)}</div>
+                  <div key={card.key}>
+                    {TrackerCard(
+                      card.key,
+                      getLabelAmount(card.key),
+                      card.assets
+                    )}
+                  </div>
                 );
               })}
             </div>

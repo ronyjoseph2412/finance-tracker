@@ -1,42 +1,69 @@
+import tempData from "@/tempData";
 import styles from "./DashboardTransactionsList.module.css";
+import { sortAllTransactions } from "@/Utils/sortTransactions";
+import { nthFormatter } from "@/Utils/dateModify";
 export type DashboardtransactionsListProps = {};
 export const DashboardtransactionsList: React.FC<
   DashboardtransactionsListProps
 > = ({}) => {
+  const sortedTransactions = sortAllTransactions(
+    tempData.expenditureData,
+    "Date"
+  )
+    .slice(0, 6)
+    .map((transaction) => {
+      const date = new Date(transaction.date);
+      const month = date.toLocaleString("default", { month: "short" });
+      const day = nthFormatter(date.getDate());
+      const year = date.getFullYear();
+      return {
+        date: `${day} ${month}, ${year}`,
+        amount: transaction.amount,
+        // business: transaction.business,
+        tags: transaction.tags,
+      };
+    });
 
-  const transaction = (lastIndex: boolean) => {
-    return (
-      <div
-        className={[styles.RowWrapper, styles.Transaction].join(" ")}
-        style={lastIndex ? { border: "None" } : undefined}
-      >
-        <div
-          className={styles.RowWrapper}
-          style={{
-            justifyContent: "flex-start",
-            alignItems: "center",
-            marginLeft: "8px",
-          }}
-        >
-          <div className={styles.Logo}>Logo</div>
-          <div className={styles.ColWrapper}>
-            <div className={styles.ReasonLabel}>Title</div>
-            <div className={styles.DateLabel}>Date</div>
-          </div>
-        </div>
-        <div className={styles.Amount}>$ 50000</div>
-      </div>
-    );
-  };
+  console.log(sortedTransactions);
+
   return (
     <div className={styles.TransactionList}>
+      {/* {transaction(false)}
       {transaction(false)}
       {transaction(false)}
       {transaction(false)}
       {transaction(false)}
       {transaction(false)}
-      {transaction(false)}
-      {transaction(true)}
+      {transaction(true)} */}
+
+      {sortedTransactions.map((transaction, index) => {
+        return (
+          <div
+            className={[styles.RowWrapper, styles.Transaction].join(" ")}
+            style={
+              index === sortedTransactions.length - 1
+                ? { border: "None" }
+                : undefined
+            }
+          >
+            <div
+              className={styles.RowWrapper}
+              style={{
+                justifyContent: "flex-start",
+                alignItems: "center",
+                marginLeft: "8px",
+              }}
+            >
+              <div className={styles.Logo}>Logo</div>
+              <div className={styles.ColWrapper}>
+                <div className={styles.ReasonLabel}>{transaction.tags}</div>
+                <div className={styles.DateLabel}>{transaction.date}</div>
+              </div>
+            </div>
+            <div className={styles.Amount}>₹ {transaction.amount}</div>
+          </div>
+        );
+      })}
     </div>
   );
 };

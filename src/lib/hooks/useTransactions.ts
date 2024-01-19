@@ -108,7 +108,6 @@ export const useUpdateTimestamps = () => {
   return (timeLabel?: string | null, startDate?: string, endDate?: string) => {
     if (timeLabel) {
       const updatedTimestamps = updateTimestamps(timeLabel);
-      console.log(updatedTimestamps);
       dispatch(updateStartDate(updatedTimestamps.startDate));
       dispatch(updateEndDate(updatedTimestamps.endDate));
     } else if (startDate && endDate) {
