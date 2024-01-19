@@ -45,6 +45,7 @@
     gap: 1rem;
     font-size: 1.4rem;
     font-weight: 500;
+    position: relative;
 }
 
 .TrackerCard span {
@@ -85,9 +86,34 @@
     grid-column: span 1 / span 1;
 }
 
-.ColumnWrapper{
+.ColumnWrapper {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-end;
+}
+
+.BackgroundImage {
+    position: absolute;
+    top: 30%;
+    right: -2.5%;
+    width: 40%;
+    height: 75%;
+    z-index: -1;
+    opacity: 0.5;
+}
+
+.OverviewMessage {
+    font-size: 1.4rem;
+    font-weight: 500;
+
+}
+
+.WelcomeBack {
+    font-size: 3.2rem;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
 }
