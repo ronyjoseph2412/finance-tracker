@@ -52,12 +52,19 @@
     display: flex;
     justify-content: center;
     border: 1px solid #E0E0E0;
+    align-content: center;
 }
 
-.Amount{
+.Amount {
     font-size: 1.6rem;
     font-weight: 600;
     color: #000;
     margin-right: 1rem;
     white-space: nowrap;
+}
+
+.LogoInner{
+    height: 2.8rem;
+    margin-top: 0.7rem;
+    width: 2.4rem;
 }

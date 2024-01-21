@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "@/lib/Provider";
 import TransitionsModal from "@/Components/Modal/CustomModal";
 import Navbar from "@/Components/Navbar/Navbar";
+import Footer from "@/Components/Footer/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({
             <Navbar />
             <TransitionsModal />
             {children}
+            <Footer />
           </>
         </Providers>
       </body>
