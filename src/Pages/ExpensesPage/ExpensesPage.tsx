@@ -1,10 +1,19 @@
-import ExpensesTable from "@/Components/ExpensesPage/ExpensesTable";
 import styles from "./ExpensesPage.module.css";
 import ExpesnesGraph from "@/Components/ExpensesGraph/ExpensesGraph";
 import SelectComponent from "@/Components/SelectComponent/SelectComponent";
 import staticData from "@/staticData";
+import ExpenseTable from "@/Components/ExpensesPage/ExpensesTable";
+import tempData from "@/tempData";
 export type ExepensesPageProps = {};
 export const ExepensesPage: React.FC<ExepensesPageProps> = ({}) => {
+  const data = tempData.expenditureData.map((item) => {
+    return {
+      date: new Date(item.date).toLocaleDateString(),
+      business: item.business,
+      tags: item.tags,
+      amount: item.amount,
+    };
+  });
   return (
     <div className={styles.Wrapper}>
       <div className={styles.HeadingWrapper}>
@@ -18,7 +27,7 @@ export const ExepensesPage: React.FC<ExepensesPageProps> = ({}) => {
       </div>
       <div className={styles.LayoutContainer}>
         <div className={[styles.TableWrapper, styles.ShadowBox].join(" ")}>
-          <ExpensesTable />
+          {/* <ExpenseTable data={data} /> */}
         </div>
         <div className={styles.CategoriesWrapper}>
           <div
