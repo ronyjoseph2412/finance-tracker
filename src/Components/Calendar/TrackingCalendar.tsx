@@ -36,7 +36,11 @@ const data = Array.from({ length: 42 }, (_, index) => {
   const dayNumber = index + 1 - startDayOffset;
   const isAday = dayNumber >= 1 && dayNumber <= daysInMonth;
   const isFutureDay = isAday && dayNumber > currentDate.getDate() - 1;
-  const amountSpent = isFutureDay ? 0 : filteredData[dayNumber]?.totalAmount;
+  const amountSpent = isFutureDay
+    ? 0
+    : filteredData[dayNumber]?.totalAmount !== undefined
+    ? filteredData[dayNumber]?.totalAmount
+    : 0;
   return {
     dayNumber,
     amountSpent,

@@ -2,6 +2,8 @@ import tempData from "@/tempData";
 import styles from "./DashboardTransactionsList.module.css";
 import { sortAllTransactions } from "@/Utils/sortTransactions";
 import { nthFormatter } from "@/Utils/dateModify";
+import Image from "next/image";
+import TransactionsLogo from "@/Assets/Debit.png";
 export type DashboardtransactionsListProps = {};
 export const DashboardtransactionsList: React.FC<
   DashboardtransactionsListProps
@@ -54,7 +56,13 @@ export const DashboardtransactionsList: React.FC<
                 marginLeft: "8px",
               }}
             >
-              <div className={styles.Logo}>Logo</div>
+              <div className={styles.Logo}>
+                <Image
+                  className={styles.LogoInner}
+                  src={TransactionsLogo}
+                  alt="Credit card payment icons created by rezamr - Flaticon"
+                />
+              </div>
               <div className={styles.ColWrapper}>
                 <div className={styles.ReasonLabel}>{transaction.tags}</div>
                 <div className={styles.DateLabel}>{transaction.date}</div>
