@@ -1,0 +1,47 @@
+.Wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0rem;
+}
+
+
+.LayoutContainer {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    place-content: center;
+    width: 100%;
+    gap: 1.2rem;
+}
+
+
+.BudgetPlannarCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    border: 1px solid #E0E0E0;
+    padding: 1.6rem 0.4rem 2.4rem 0.8rem;
+    width: 90%;
+    gap: 0.8rem;
+    height: 12rem;
+}
+
+.Goal {
+    font-size: 1.6rem;
+}
+
+.Amount {
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+
+.RowWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}

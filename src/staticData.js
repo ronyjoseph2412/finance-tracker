@@ -4,7 +4,7 @@ import ExpensesLogo from "@/Assets/Expenses.gif";
 const staticData = {
   dashboardPage: {
     message: "Welcome back, ",
-    overview:"Here's an overview of your finances for ",
+    overview: "Here's an overview of your finances for ",
     options: ["Income", "Expenses", "Savings"],
   },
   transactionsFilterOptions: [
@@ -50,6 +50,24 @@ const staticData = {
         type: "dropdown",
         name: "Profile",
         path: "/settings",
+      },
+    ],
+  },
+  investmentsPage: {
+    message: "Investments",
+    options: ["Mutual Funds", "Stocks", "Fixed Deposits", "Bonds", "Others"],
+    trackerCards: [
+      {
+        key: "Total Investments",
+        assets: InvestmentsLogo,
+      },
+      {
+        key: "Current Value",
+        assets: InvestmentsLogo,
+      },
+      {
+        key: "Total Profit/Loss",
+        assets: InvestmentsLogo,
       },
     ],
   },
