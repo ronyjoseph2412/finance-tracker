@@ -60,6 +60,11 @@ function userFinancials() {
         required: false,
         default: [],
       },
+      budgetData: {
+        type: Array,
+        required: false,
+        default: [],
+      },
     },
     {
       timestamps: true,
