@@ -5,7 +5,6 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: any, { params: { transactionType } }: any) {
   // Get Path from request
-  console.log(transactionType);
   const User_ID = await jwtMiddleware(request);
   const body = await request.json();
 

@@ -111,7 +111,6 @@ export const useUpdateTimestamps = () => {
       dispatch(updateStartDate(updatedTimestamps.startDate));
       dispatch(updateEndDate(updatedTimestamps.endDate));
     } else if (startDate && endDate) {
-      console.log(startDate, endDate);
       dispatch(updateStartDate(new Date(startDate).getTime() / 1000));
       dispatch(updateEndDate(new Date(endDate).getTime() / 1000));
     } else {

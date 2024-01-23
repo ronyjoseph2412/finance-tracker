@@ -3,7 +3,6 @@ import styles from "./ExpensesGraph.module.css";
 import ExpenseLineChart from "./Graphs/ExpensesLine";
 export type ExpesnesGraphProps = { graphType: string };
 export const ExpesnesGraph: React.FC<ExpesnesGraphProps> = ({ graphType }) => {
-  // console.log({  })
   // const [, set] = React.useState();
   // React.useEffect(() => {}, [])
   switch (graphType) {
