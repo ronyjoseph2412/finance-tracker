@@ -45,6 +45,129 @@ const tempData = {
       amount: 300,
     },
   ],
+  investmentData: [
+    {
+      type: "Mutual Funds",
+      investments: [
+        {
+          name: "Mutual Fund X",
+          totalCurrentValue: 15000,
+          quantity: 200,
+          investmentsData: [
+            {
+              investedAmount: 10000,
+              investedQuantity: 100,
+              timeofInvestment: new Date("2021-01-01").getTime(),
+            },
+            {
+              investedAmount: 12000,
+              investedQuantity: 100,
+              timeofInvestment: new Date("2021-03-01").getTime(),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      type: "Stocks",
+      investments: [
+        {
+          name: "Stock A",
+          totalCurrentValue: 3500,
+          quantity: 100,
+          investmentsData: [
+            {
+              investedAmount: 10000,
+              investedQuantity: 50,
+              timeofInvestment: new Date("2021-01-01").getTime(),
+            },
+            {
+              investedAmount: 20000,
+              investedQuantity: 50,
+              timeofInvestment: new Date("2021-02-01").getTime(),
+            },
+          ],
+        },
+        {
+          name: "Stock B",
+          totalCurrentValue: 30000,
+          quantity: 100,
+          investmentsData: [
+            {
+              investedAmount: 10000,
+              investedQuantity: 50,
+              timeofInvestment: new Date("2021-01-01").getTime(),
+            },
+            {
+              investedAmount: 20000,
+              investedQuantity: 50,
+              timeofInvestment: new Date("2021-02-01").getTime(),
+            },
+          ],
+        },
+        // Add more stocks as needed
+      ],
+    },
+    {
+      type: "Fixed Deposits",
+      investments: [
+        {
+          name: "FD 1",
+          totalCurrentValue: 12000,
+          quantity: 1,
+          investmentsData: [
+            {
+              investedAmount: 10000,
+              investedQuantity: 1,
+              timeofInvestment: new Date("2021-04-01").getTime(),
+            },
+          ],
+        },
+        // Add more fixed deposits as needed
+      ],
+    },
+    {
+      type: "Bonds",
+      investments: [
+        {
+          name: "Bond X",
+          totalCurrentValue: 8000,
+          quantity: 2,
+          investmentsData: [
+            {
+              investedAmount: 5000,
+              investedQuantity: 1,
+              timeofInvestment: new Date("2021-02-01").getTime(),
+            },
+            {
+              investedAmount: 3000,
+              investedQuantity: 1,
+              timeofInvestment: new Date("2021-03-01").getTime(),
+            },
+          ],
+        },
+        // Add more bonds as needed
+      ],
+    },
+    {
+      type: "Others",
+      investments: [
+        {
+          name: "Other Investment Y",
+          totalCurrentValue: 5000,
+          quantity: 1,
+          investmentsData: [
+            {
+              investedAmount: 3000,
+              investedQuantity: 1,
+              timeofInvestment: new Date("2021-05-01").getTime(),
+            },
+          ],
+        },
+        // Add more other investments as needed
+      ],
+    },
+  ],
   expenditureData: [
     {
       date: new Date("2023-08-01").getTime(),

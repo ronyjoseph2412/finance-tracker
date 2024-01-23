@@ -1,0 +1,97 @@
+.Wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: auto;
+    padding: 0.8rem 2.4rem;
+}
+
+.LayoutContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.HeadingWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.TrackerWrapper {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    place-content: center;
+    gap: 3.6rem;
+    margin-top: 2rem;
+    width: 100%;
+
+}
+
+
+.TrackerCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 1.6rem 0.4rem 2.4rem 0.8rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease-in-out;
+    width: 100%;
+    height: 10rem;
+    cursor: pointer;
+    gap: 1rem;
+    font-size: 1.4rem;
+    font-weight: 500;
+    position: relative;
+}
+
+.ShadowCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 1.6rem 0.4rem 2.4rem 0.8rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.TrackerCard span {
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #000;
+}
+
+.TrackerCard:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.GridLayout {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    place-content: center;
+    gap: 2.4rem;
+    width: 100%;
+}
+
+.ColWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+    width: 100%;
+    grid-column: span 2 / span 2;
+}
+
+.HeadingTexts {
+    font-size: 1.8rem;
+    font-weight: 400;
+}
