@@ -8,6 +8,7 @@ mongoose.Promise = global.Promise;
 export const db = {
   User: userModel(),
   UserFinancials: userFinancials(),
+  UserInvestments: userInvestments(),
 };
 
 // mongoose models with schema definitions
@@ -82,5 +83,37 @@ function userFinancials() {
 
   return (
     mongoose.models.UserFinancials || mongoose.model("UserFinancials", schema)
+  );
+}
+
+function userInvestments() {
+  const schema = new Schema(
+    {
+      investment_id: {
+        type: String,
+        required: false,
+      },
+      investmentsData: {
+        type: Array,
+        required: false,
+        default: [],
+      },
+    },
+    {
+      timestamps: true,
+    }
+  );
+
+  schema.set("toJSON", {
+    virtuals: true,
+    versionKey: false,
+    transform: function (doc, ret) {
+      delete ret._id;
+      delete ret.hash;
+    },
+  });
+
+  return (
+    mongoose.models.UserInvestments || mongoose.model("UserInvestments", schema)
   );
 }
