@@ -26,8 +26,6 @@ export const DashboardtransactionsList: React.FC<
       };
     });
 
-  console.log(sortedTransactions);
-
   return (
     <div className={styles.TransactionList}>
       {/* {transaction(false)}

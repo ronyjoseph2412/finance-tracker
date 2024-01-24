@@ -30,7 +30,6 @@ const filteredData = getTransactionsofMonth(
   currentDate.getMonth(),
   currentDate.getFullYear()
 );
-console.log(filteredData);
 
 const data = Array.from({ length: 42 }, (_, index) => {
   const dayNumber = index + 1 - startDayOffset;

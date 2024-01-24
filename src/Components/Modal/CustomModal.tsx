@@ -77,7 +77,6 @@ export default function TransitionsModal() {
 
 // export type AddTransactionButtonProps = { :  }
 // export const AddTransactionButton: React.FC<AddTransactionButtonProps> = ({  }) => {
-//     console.log({  })
 //     const [, set] = React.useState();
 //     React.useEffect(() => {}, [])
 //     return (
