@@ -9,6 +9,7 @@ export const db = {
   User: userModel(),
   UserFinancials: userFinancials(),
   UserInvestments: userInvestments(),
+  UserSavings: userSavings(),
 };
 
 // mongoose models with schema definitions
@@ -115,5 +116,37 @@ function userInvestments() {
 
   return (
     mongoose.models.UserInvestments || mongoose.model("UserInvestments", schema)
+  );
+}
+
+function userSavings(){
+  const schema = new Schema(
+    {
+      username: {
+        type: String,
+        required: true,
+      },
+      savingsData: {
+        type: Array,
+        required: false,
+        default: [],
+      },
+    },
+    {
+      timestamps: true,
+    }
+  );
+
+  schema.set("toJSON", {
+    virtuals: true,
+    versionKey: false,
+    transform: function (doc, ret) {
+      delete ret._id;
+      delete ret.hash;
+    },
+  });
+
+  return (
+    mongoose.models.UserSavings || mongoose.model("UserSavings", schema)
   );
 }

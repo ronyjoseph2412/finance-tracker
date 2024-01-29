@@ -8,6 +8,7 @@ export const userFinancialsRepo = {
   updateIncomeData,
   updateExpenseData,
   createBudget,
+  
 };
 
 async function getUserFinancialData(username: string) {
@@ -46,3 +47,4 @@ async function createBudget(username: string, budget: any) {
   await UserFinancialData.save();
   return UserFinancialData;
 }
+

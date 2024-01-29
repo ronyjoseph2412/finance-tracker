@@ -64,7 +64,7 @@ async function getCurrent() {
 async function create(params: any) {
   // validate
   if (await User.findOne({ username: params.username })) {
-    return { message: 'Username is already taken' };
+    return { message: "Username is already taken" };
   }
 
   const user = new User(params);
