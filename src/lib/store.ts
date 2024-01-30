@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import counterReducer from "./counterSlice";
 import popupReducer from "./popupSlice";
 import transactionsReducer from "./transactionsSlice";
+import userReducer from "./userSlice";
 // import { userApi } from "./services/userApi";
 // import { setupListeners } from "@reduxjs/toolkit/dist/query";
 
@@ -10,6 +11,7 @@ export const store = configureStore({
     counterReducer,
     popupReducer,
     transactionsReducer,
+    userReducer,
     // [userApi.reducerPath]: userApi.reducer,
   },
   //   devTools: process.env.NODE_ENV !== "production",
