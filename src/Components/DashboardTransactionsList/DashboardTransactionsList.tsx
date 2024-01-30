@@ -4,12 +4,17 @@ import { sortAllTransactions } from "@/Utils/sortTransactions";
 import { nthFormatter } from "@/Utils/dateModify";
 import Image from "next/image";
 import TransactionsLogo from "@/Assets/Debit.png";
+import { getUserFinancials } from "@/services/getUserFinancials";
+import { cookies } from "next/headers";
 export type DashboardtransactionsListProps = {};
 export const DashboardtransactionsList: React.FC<
   DashboardtransactionsListProps
-> = ({}) => {
+> = async ({}) => {
+  const token = cookies().get("authorization")?.value ?? "";
+  const userFinancials = await getUserFinancials(token);
+
   const sortedTransactions = sortAllTransactions(
-    tempData.expenditureData,
+    userFinancials.expensesData,
     "Date"
   )
     .slice(0, 6)
@@ -22,20 +27,13 @@ export const DashboardtransactionsList: React.FC<
         date: `${day} ${month}, ${year}`,
         amount: transaction.amount,
         // business: transaction.business,
-        tags: transaction.tags,
+        payee: transaction.payee,
+        category: transaction.category,
       };
     });
 
   return (
     <div className={styles.TransactionList}>
-      {/* {transaction(false)}
-      {transaction(false)}
-      {transaction(false)}
-      {transaction(false)}
-      {transaction(false)}
-      {transaction(false)}
-      {transaction(true)} */}
-
       {sortedTransactions.map((transaction, index) => {
         return (
           <div
@@ -62,7 +60,7 @@ export const DashboardtransactionsList: React.FC<
                 />
               </div>
               <div className={styles.ColWrapper}>
-                <div className={styles.ReasonLabel}>{transaction.tags}</div>
+                <div className={styles.ReasonLabel}>{transaction.category}: {transaction.payee}</div>
                 <div className={styles.DateLabel}>{transaction.date}</div>
               </div>
             </div>

@@ -84,8 +84,8 @@ export const getTransactionsofMonth = (
   month: number,
   year: number
 ) => {
-  const monthStart = new Date(year, month, 1).getTime();
-  const monthEnd = new Date(year, month + 1, 0).getTime();
+  const monthStart = new Date(year, month, 1).getTime() / 1000;
+  const monthEnd = new Date(year, month + 1, 0).getTime() / 1000;
   const filteredData = data.filter(
     (item) => item.date >= monthStart && item.date <= monthEnd
   );

@@ -2,8 +2,9 @@ export const sortAllTransactions = (
   transactions: {
     date: number;
     business: string;
-    tags: string;
+    category: string;
     amount: number;
+    payee: string;
   }[],
   sortBy: string
 ) => {

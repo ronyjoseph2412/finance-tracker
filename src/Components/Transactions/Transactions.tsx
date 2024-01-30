@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import styles from "./Transactions.module.css";
 import DashboardtransactionsList from "../DashboardTransactionsList/DashboardTransactionsList";
-export type TransactionsProps = { page: String };
+export type TransactionsProps = { page: string };
 export const Transactions: React.FC<TransactionsProps> = ({ page }) => {
   const DashboardTransactions = () => {
     return (

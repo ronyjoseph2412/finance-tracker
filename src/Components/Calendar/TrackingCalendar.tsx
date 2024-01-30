@@ -5,6 +5,9 @@ import staticData from "@/staticData";
 import tempData from "@/tempData";
 import { getTransactionsofMonth } from "@/Utils/DatefilterTransactions";
 import currencySymbol from "@/Utils/currencySymbol";
+import { cookies } from "next/headers";
+import { getUserFinancials } from "@/services/getUserFinancials";
+import { timeStampedData } from "@/Utils/timeStampedData";
 
 interface DayData {
   dayNumber: number;
@@ -25,28 +28,32 @@ const daysInMonth = new Date(
 
 const startDayOffset = firstDayOfMonth.getDay();
 
-const filteredData = getTransactionsofMonth(
-  tempData.expenditureData,
-  currentDate.getMonth(),
-  currentDate.getFullYear()
-);
+const trackingCalendarData = (expenditureData: any) => {
+  const filteredData = getTransactionsofMonth(
+    timeStampedData(expenditureData),
+    currentDate.getMonth(),
+    currentDate.getFullYear()
+  );
 
-const data = Array.from({ length: 42 }, (_, index) => {
-  const dayNumber = index + 1 - startDayOffset;
-  const isAday = dayNumber >= 1 && dayNumber <= daysInMonth;
-  const isFutureDay = isAday && dayNumber > currentDate.getDate() - 1;
-  const amountSpent = isFutureDay
-    ? 0
-    : filteredData[dayNumber]?.totalAmount !== undefined
-    ? filteredData[dayNumber]?.totalAmount
-    : 0;
-  return {
-    dayNumber,
-    amountSpent,
-    isFutureDay,
-    isAday,
-  };
-});
+  const data = Array.from({ length: 42 }, (_, index) => {
+    const dayNumber = index + 1 - startDayOffset;
+    const isAday = dayNumber >= 1 && dayNumber <= daysInMonth;
+    const isFutureDay = isAday && dayNumber > currentDate.getDate() - 1;
+    const amountSpent = isFutureDay
+      ? 0
+      : filteredData[dayNumber]?.totalAmount !== undefined
+      ? filteredData[dayNumber]?.totalAmount
+      : 0;
+    return {
+      dayNumber,
+      amountSpent,
+      isFutureDay,
+      isAday,
+    };
+  });
+
+  return data;
+};
 
 interface CalendarProps {}
 
@@ -63,7 +70,12 @@ interface CalendarProps {}
 //   return Math.min(calculatedSize, maxSize);
 // };
 
-const TrackingCalendar: React.FC<CalendarProps> = ({}) => {
+const TrackingCalendar: React.FC<CalendarProps> = async ({}) => {
+  const token = cookies().get("authorization")?.value ?? "";
+  const userFinancials = await getUserFinancials(token);
+  const expensesData = userFinancials.expensesData;
+  const data = trackingCalendarData(expensesData);
+
   const maxAmountSpent = Math.max(...data.map((day) => day.amountSpent), 0);
   return (
     <div className={styles.calendar}>

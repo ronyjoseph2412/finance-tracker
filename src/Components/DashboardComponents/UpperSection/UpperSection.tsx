@@ -6,10 +6,10 @@ import { AddTransaction } from "./AddTransaction";
 import TrackingCalendar from "@/Components/Calendar/TrackingCalendar";
 import Image, { StaticImageData } from "next/image";
 import { getLabelAmount } from "@/Utils/getLabelAmount";
-import { useAppSelector } from "@/lib/hooks";
 import { getUserData } from "@/services/getUserData";
 import { cookies } from "next/headers";
 import { getUserFinancials } from "@/services/getUserFinancials";
+import { getTransactionsSummary } from "@/Utils/getTransactionsSummary";
 const trackerCards = staticData.trackerCards;
 
 export type UpperSectionProps = {};
@@ -58,7 +58,7 @@ export const UpperSection: React.FC<UpperSectionProps> = async ({}) => {
   const token = cookies().get("authorization")?.value ?? "";
   const userData = await getUserData(token);
   const userFinancials = await getUserFinancials(token);
-  console.log(userData, userFinancials);
+  const financialSummary = getTransactionsSummary(userFinancials);
   return (
     <div className={styles.Wrapper}>
       <div className={styles.RowWrapper}>
@@ -88,7 +88,7 @@ export const UpperSection: React.FC<UpperSectionProps> = async ({}) => {
                   <div key={card.key}>
                     {TrackerCard(
                       card.key,
-                      getLabelAmount(card.key),
+                      getLabelAmount(card.key, userFinancials),
                       card.assets
                     )}
                   </div>
