@@ -34,7 +34,7 @@ const staticData = {
       {
         name: "Dashboard",
         type: "link",
-        path: "/",
+        path: "/dashboard",
       },
       {
         type: "link",

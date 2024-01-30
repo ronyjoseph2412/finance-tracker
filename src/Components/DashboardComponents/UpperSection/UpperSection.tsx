@@ -6,6 +6,10 @@ import { AddTransaction } from "./AddTransaction";
 import TrackingCalendar from "@/Components/Calendar/TrackingCalendar";
 import Image, { StaticImageData } from "next/image";
 import { getLabelAmount } from "@/Utils/getLabelAmount";
+import { useAppSelector } from "@/lib/hooks";
+import { getUserData } from "@/services/getUserData";
+import { cookies } from "next/headers";
+import { getUserFinancials } from "@/services/getUserFinancials";
 const trackerCards = staticData.trackerCards;
 
 export type UpperSectionProps = {};
@@ -48,16 +52,20 @@ const TrackerCard = (
   );
 };
 
-export const UpperSection: React.FC<UpperSectionProps> = ({}) => {
+export const UpperSection: React.FC<UpperSectionProps> = async ({}) => {
   const date = new Date();
   const month = date.toLocaleString("default", { month: "long" });
+  const token = cookies().get("authorization")?.value ?? "";
+  const userData = await getUserData(token);
+  const userFinancials = await getUserFinancials(token);
+  console.log(userData, userFinancials);
   return (
     <div className={styles.Wrapper}>
       <div className={styles.RowWrapper}>
         <div className={styles.WelcomeBack}>
           <div>
             {staticData.dashboardPage.message}
-            <span className={styles.Name}>{tempData.firstName}!</span>
+            <span className={styles.Name}>{userData?.firstName}!</span>
           </div>
           <div className={styles.OverviewMessage}>{`${
             staticData.dashboardPage.overview
