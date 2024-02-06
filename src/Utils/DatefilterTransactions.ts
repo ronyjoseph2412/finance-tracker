@@ -14,6 +14,15 @@ interface FilteredDataItem {
   [date: number]: FilterDataItemObject;
 }
 
+interface LabelDataItem {
+  type: string;
+  description: string;
+  amount: number;
+  frequency: string;
+  date: number;
+  paidBy: string;
+}
+
 // Check for fixing any type errors
 export const filterTransactionsbyDate = (
   data: DataItem[],
@@ -96,7 +105,7 @@ export const getTransactionsofMonth = (
     };
   } = {};
   filteredData.forEach((item: any) => {
-    const day = new Date(item.date).getDate();
+    const day = new Date(item.date * 1000).getDate();
     if (!structuredData[day]) {
       structuredData[day] = {
         totalAmount: item.amount,
@@ -107,4 +116,18 @@ export const getTransactionsofMonth = (
   });
 
   return structuredData;
+};
+
+export const getTransactionsofMonthforLabels = (
+  data: LabelDataItem[],
+  month: number,
+  year: number
+) => {
+  const monthStart = new Date(year, month, 1).getTime() / 1000;
+  const monthEnd = new Date(year, month + 1, 0).getTime() / 1000;
+  const filteredData = data.filter(
+    (item) => item.date >= monthStart && item.date <= monthEnd
+  );
+
+  return filteredData;
 };

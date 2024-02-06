@@ -71,11 +71,15 @@ async function create(params: any) {
   const userFinancials = new db.UserFinancials({
     username: params.username,
   });
+  const userSavings = new db.UserSavings({
+    username: params.username,
+  });
   if (params.password) {
     user.hash = bcrypt.hashSync(params.password, 10);
   }
   await user.save();
   await userFinancials.save();
+  await userSavings.save();
   return { message: "User Created Successfully" };
 }
 

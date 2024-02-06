@@ -28,7 +28,7 @@ const TrackerCard = (
 ) => {
   return (
     <div className={styles.TrackerCard}>
-      <div>{labelType}</div>
+      <div>{labelType === "Income" ? "Earnings" : labelType}</div>
       <div>
         <span
           style={{
@@ -59,6 +59,7 @@ export const UpperSection: React.FC<UpperSectionProps> = async ({}) => {
   const userData = await getUserData(token);
   const userFinancials = await getUserFinancials(token);
   const financialSummary = getTransactionsSummary(userFinancials);
+  const currentDate = new Date();
   return (
     <div className={styles.Wrapper}>
       <div className={styles.RowWrapper}>
@@ -88,7 +89,12 @@ export const UpperSection: React.FC<UpperSectionProps> = async ({}) => {
                   <div key={card.key}>
                     {TrackerCard(
                       card.key,
-                      getLabelAmount(card.key, userFinancials),
+                      getLabelAmount(
+                        card.key,
+                        userFinancials,
+                        currentDate.getMonth(),
+                        currentDate.getFullYear()
+                      ),
                       card.assets
                     )}
                   </div>

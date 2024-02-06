@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
 import { db } from ".";
 import { NextResponse } from "next/server";
-
+const UserFinancials = db.UserFinancials;
 const UserInvestments = db.UserInvestments;
 export const userInvestmentsRepo = {
   createInvestment,
@@ -18,7 +18,8 @@ async function createInvestment(investment_id: ObjectId) {
 
 async function UpdateInvestmentDataBudget(
   investment_id: ObjectId,
-  investmentData: any
+  investmentData: any,
+  username: string
 ) {
   const UserInvestmentData = await UserInvestments.findOne({
     investment_id: investment_id,
