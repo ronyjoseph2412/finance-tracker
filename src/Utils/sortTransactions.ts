@@ -1,10 +1,11 @@
 export const sortAllTransactions = (
   transactions: {
-    date: number;
-    business: string;
+    date: string;
+    payee: string;
+    note: string;
     category: string;
     amount: number;
-    payee: string;
+    bankName: string;
   }[],
   sortBy: string
 ) => {

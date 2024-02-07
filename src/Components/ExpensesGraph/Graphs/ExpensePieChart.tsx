@@ -7,7 +7,17 @@ import { useAppSelector } from "@/lib/hooks";
 import staticData from "@/staticData";
 import { useEffect, useState } from "react";
 
-const ExpensePieChart = () => {
+interface ExpenseLineChartProps {
+  data: { date: string; business: string; tags: string; amount: number }[];
+}
+
+const ExpensePieChart: React.FC<ExpenseLineChartProps> = ({ data }) => {
+  let timestampedData = data.map((item: any) => {
+    return {
+      ...item,
+      date: new Date(item.date).getTime(),
+    };
+  });
   const [labelledData, setLabelledData] = useState<
     {
       id: number;
@@ -22,7 +32,7 @@ const ExpensePieChart = () => {
 
   useEffect(() => {
     const filteredData = filterTransactionsbyDate(
-      tempData.expenditureData,
+      timestampedData,
       currentFilter === staticData.transactionsFilterOptions[0] ? true : false,
       startDate ? startDate * 1000 : null,
       endDate ? endDate * 1000 : new Date().getTime()

@@ -3,17 +3,31 @@ import ExpesnesGraph from "@/Components/ExpensesGraph/ExpensesGraph";
 import SelectComponent from "@/Components/SelectComponent/SelectComponent";
 import staticData from "@/staticData";
 import ExpenseTable from "@/Components/ExpensesPage/ExpensesTable";
-import tempData from "@/tempData";
+import { cookies } from "next/headers";
+import { getUserFinancials } from "@/services/getUserFinancials";
+
 export type ExepensesPageProps = {};
-export const ExepensesPage: React.FC<ExepensesPageProps> = ({}) => {
-  const data = tempData.expenditureData.map((item) => {
-    return {
-      date: new Date(item.date).toLocaleDateString(),
-      business: item.business,
-      tags: item.tags,
-      amount: item.amount,
-    };
-  });
+export const ExepensesPage: React.FC<ExepensesPageProps> = async ({}) => {
+  const token = cookies().get("authorization")?.value ?? "";
+  const userFinancials = await getUserFinancials(token);
+  const expenditureData = userFinancials.expensesData;
+  const Graphdata = expenditureData.map(
+    (item: {
+      date: string;
+      payee: string;
+      note: string;
+      category: string;
+      amount: number;
+      bankName: string;
+    }) => {
+      return {
+        date: item.date,
+        business: item.payee,
+        tags: item.category,
+        amount: item.amount,
+      };
+    }
+  );
   return (
     <div className={styles.Wrapper}>
       <div className={styles.HeadingWrapper}>
@@ -27,7 +41,7 @@ export const ExepensesPage: React.FC<ExepensesPageProps> = ({}) => {
       </div>
       <div className={styles.LayoutContainer}>
         <div className={[styles.TableWrapper, styles.ShadowBox].join(" ")}>
-          {/* <ExpenseTable data={data} /> */}
+          <ExpenseTable data={expenditureData} />
         </div>
         <div className={styles.CategoriesWrapper}>
           <div
@@ -36,7 +50,7 @@ export const ExepensesPage: React.FC<ExepensesPageProps> = ({}) => {
               width: "90%",
             }}
           >
-            <ExpesnesGraph graphType="pie" />
+            <ExpesnesGraph graphType="pie" Graphdata={Graphdata} />
           </div>
           <div
             className={styles.ShadowBox}
@@ -44,7 +58,7 @@ export const ExepensesPage: React.FC<ExepensesPageProps> = ({}) => {
               width: "90%",
             }}
           >
-            <ExpesnesGraph graphType="line" />
+            <ExpesnesGraph graphType="line" Graphdata={Graphdata} />
           </div>
         </div>
       </div>

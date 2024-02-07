@@ -2,20 +2,26 @@
 // import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
 import tempData from "@/tempData";
 import { filterTransactionswithStructure } from "@/Utils/DatefilterTransactions";
-import * as React from "react";
 import { LineChart } from "@mui/x-charts/LineChart";
 import { useAppSelector } from "@/lib/hooks";
 import staticData from "@/staticData";
 
-interface TransactionData {
-  tags: string;
-  totalAmount: number;
+interface ExpenseLineChartProps {
+  Graphdata: { date: string; business: string; tags: string; amount: number }[];
 }
 
-const ExpenseLineChart: React.FC = () => {
+const ExpenseLineChart: React.FC<ExpenseLineChartProps> = ({ Graphdata }) => {
   const { startDate, endDate, currentFilter } = useAppSelector(
     (state) => state.transactionsReducer
   );
+
+  let timestampedData = Graphdata.map((item: any) => {
+    return {
+      ...item,
+      date: new Date(item.date).getTime(),
+    };
+  });
+
 
   const structuredData: {
     [date: number]: {
@@ -24,7 +30,7 @@ const ExpenseLineChart: React.FC = () => {
       date: number;
     };
   } = filterTransactionswithStructure(
-    tempData.expenditureData,
+    timestampedData,
     currentFilter === staticData.transactionsFilterOptions[0] ? true : false,
     startDate ? startDate * 1000 : null,
     endDate ? endDate * 1000 : new Date().getTime()

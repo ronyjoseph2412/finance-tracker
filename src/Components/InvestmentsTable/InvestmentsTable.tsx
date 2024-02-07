@@ -1,5 +1,6 @@
+// components/StockTable.tsx
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import { useTable } from "react-table";
 import {
   Table,
@@ -11,23 +12,17 @@ import {
   Paper,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { useAppSelector } from "@/lib/hooks";
-import { filterTransactionsbyDate } from "@/Utils/DatefilterTransactions";
-import staticData from "@/staticData";
-import { timeStampedData } from "@/Utils/timeStampedData";
-import { sortAllTransactions } from "@/Utils/sortTransactions";
 
-interface Transaction {
-  date: string;
-  payee: string;
-  note: string;
-  category: string;
+interface Stock {
+  type: string;
+  name: string;
   amount: number;
-  bankName: string;
+  description: string;
+  date: number;
 }
 
 interface Props {
-  data: Transaction[];
+  data: Stock[];
 }
 
 const useStyles = makeStyles({
@@ -41,53 +36,26 @@ const useStyles = makeStyles({
   },
 });
 
-const ExpensesTable: React.FC<Props> = ({ data }) => {
-  const { startDate, endDate, currentFilter } = useAppSelector(
-    (state) => state.transactionsReducer
-  );
-
-  const startTimestamp = startDate ? startDate * 1000 : null;
-  const exndTimestamp = endDate ? endDate * 1000 : new Date().getTime();
-
-  let timestampedData = data.map((item: any) => {
-    return {
-      ...item,
-      date: new Date(item.date).getTime(),
-    };
-  });
-
-  const [expenditureData, setExpenditureData] = React.useState<Transaction[]>(
-    []
-  );
-
-  useEffect(() => {
-    const filteredData = filterTransactionsbyDate(
-      timestampedData,
-      currentFilter === staticData.transactionsFilterOptions[0] ? true : false,
-      startTimestamp,
-      exndTimestamp
-    );
-    setExpenditureData(filteredData);
-  }, [data, startDate, endDate]);
-
+const cellStyle = {
+  fontSize: "13px", // Adjust the font size as needed
+};
+const StockTable: React.FC<Props> = ({ data }) => {
   const columns = React.useMemo(
     () => [
       { Header: "Date", accessor: "date" },
-      { Header: "Payee", accessor: "payee" },
-      { Header: "Category", accessor: "category" },
+      { Header: "Type", accessor: "type" },
+      { Header: "Name", accessor: "name" },
       { Header: "Amount", accessor: "amount" },
+      { Header: "Description", accessor: "description" },
     ],
     []
   );
 
-  const cellStyle = {
-    fontSize: "13px", // Adjust the font size as needed
-  };
-
   const classes = useStyles();
+
   const { getTableProps, headerGroups, rows, prepareRow } = useTable({
     columns,
-    data: timeStampedData(sortAllTransactions(expenditureData, "Date"), true),
+    data,
   });
 
   return (
@@ -108,7 +76,7 @@ const ExpensesTable: React.FC<Props> = ({ data }) => {
           {rows.map((row) => {
             prepareRow(row);
             return (
-              <TableRow {...row.getRowProps()}>
+              <TableRow {...row.getRowProps()} key={row.id}>
                 {row.cells.map((cell) => {
                   return (
                     <TableCell {...cell.getCellProps()} style={cellStyle}>
@@ -125,4 +93,4 @@ const ExpensesTable: React.FC<Props> = ({ data }) => {
   );
 };
 
-export default ExpensesTable;
+export default StockTable;

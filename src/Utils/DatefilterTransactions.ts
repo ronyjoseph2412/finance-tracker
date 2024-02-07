@@ -4,6 +4,15 @@ interface DataItem {
   date: number;
 }
 
+interface AlternativeDataItem {
+  date: number;
+  payee: string;
+  note: string;
+  category: string;
+  amount: number;
+  bankName: string;
+}
+
 interface FilterDataItemObject {
   tags: string[];
   totalAmount: number;
@@ -25,7 +34,7 @@ interface LabelDataItem {
 
 // Check for fixing any type errors
 export const filterTransactionsbyDate = (
-  data: DataItem[],
+  data: DataItem[] | AlternativeDataItem[],
   defaultOption = true,
   startDate: number | null,
   endDate: number | null
