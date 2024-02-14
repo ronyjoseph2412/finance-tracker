@@ -22,7 +22,6 @@ const ExpenseLineChart: React.FC<ExpenseLineChartProps> = ({ Graphdata }) => {
     };
   });
 
-
   const structuredData: {
     [date: number]: {
       tags: string[];
@@ -38,6 +37,7 @@ const ExpenseLineChart: React.FC<ExpenseLineChartProps> = ({ Graphdata }) => {
 
   let xAxis: string[] = [];
   let yAxis: number[] = [];
+  console.log(yAxis);
 
   Object.keys(structuredData).forEach((key) => {
     const date = new Date(parseInt(key));
@@ -56,17 +56,32 @@ const ExpenseLineChart: React.FC<ExpenseLineChartProps> = ({ Graphdata }) => {
   });
 
   return (
-    <LineChart
-      width={500}
-      height={300}
-      series={[{ data: yAxis, label: "Timeline", area: true, showMark: false }]}
-      xAxis={[{ scaleType: "point", data: xAxis }]}
-      sx={{
-        ".MuiLineElement-root": {
-          display: "none",
-        },
-      }}
-    />
+    <>
+      {yAxis.length !== 0 ? (
+        <LineChart
+          width={500}
+          height={300}
+          series={[
+            { data: yAxis, label: "Timeline", area: true, showMark: false },
+          ]}
+          xAxis={[{ scaleType: "point", data: xAxis }]}
+          sx={{
+            ".MuiLineElement-root": {
+              display: "none",
+            },
+          }}
+        />
+      ) : (
+        <div
+          style={{
+            width: "100%",
+            height: "300px",
+          }}
+        >
+          No Data
+        </div>
+      )}
+    </>
   );
 };
 

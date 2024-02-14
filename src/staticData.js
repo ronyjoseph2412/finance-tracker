@@ -49,7 +49,7 @@ const staticData = {
       {
         type: "dropdown",
         name: "Profile",
-        path: "/settings",
+        path: "/profile",
       },
     ],
   },

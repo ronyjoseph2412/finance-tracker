@@ -4,7 +4,13 @@ import { useAppDispatch } from "./lib/hooks";
 import { updateIsAuthenticated } from "./lib/userSlice";
 import { verifyAuth } from "./services/verifyAuth";
 
-const protectedRoutes = ["/expenses", "/dashboard", "/", "/investments"];
+const protectedRoutes = [
+  "/expenses",
+  "/dashboard",
+  "/",
+  "/investments",
+  "/profile",
+];
 
 export default async function middleware(req: NextRequest) {
   const { pathname, origin } = req.nextUrl;
