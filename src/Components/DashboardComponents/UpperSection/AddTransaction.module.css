@@ -1,0 +1,35 @@
+/* AddTransaction.module.css */
+
+.Wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Adds spacing between form elements */
+    border-radius: 8px;
+  }
+  
+  .Wrapper > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem; /* Adds spacing between label and input/select elements */
+  }
+  
+  .Wrapper > div > div {
+    font-weight: bold;
+  }
+  
+  /* Style for input elements */
+  .Wrapper input[type="text"],
+  .Wrapper input[type="date"],
+  .Wrapper select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  /* Style for the button */
+  .Wrapper button {
+    margin-top: 1rem;
+    align-self: flex-start; /* Aligns the button to the start of the form */
+  }
+  

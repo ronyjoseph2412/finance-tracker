@@ -76,7 +76,7 @@ export const UpperSection: React.FC<UpperSectionProps> = async ({}) => {
         <div className={styles.ColumnWrapper}>
           {/* <div>MonthPicker [This Month]</div> */}
           <div>
-            <AddTransaction />
+            <AddTransaction token={token} />
           </div>
         </div>
       </div>

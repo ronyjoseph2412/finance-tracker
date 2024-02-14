@@ -2,6 +2,20 @@ import IncomeLogo from "@/Assets/Income1.gif";
 import InvestmentsLogo from "@/Assets/Investments1.gif";
 import ExpensesLogo from "@/Assets/Expenses.gif";
 const staticData = {
+  currentUserBankAccounts: [
+    {
+      name: "Federal Bank",
+    },
+    {
+      name: "SBI Bank",
+    },
+    {
+      name: "Jio Payments Bank",
+    },
+    {
+      name: "Cash in Hand",
+    },
+  ],
   dashboardPage: {
     message: "Welcome back, ",
     overview: "Here's an overview of your finances for ",
