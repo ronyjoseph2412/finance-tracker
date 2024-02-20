@@ -76,7 +76,45 @@ export const UpperSection: React.FC<UpperSectionProps> = async ({}) => {
         <div className={styles.ColumnWrapper}>
           {/* <div>MonthPicker [This Month]</div> */}
           <div>
-            <AddTransaction token={token} />
+            <AddTransaction
+              token={token}
+              fields={[
+                {
+                  name: "Date",
+                  key: "date",
+                  type: "calendar",
+                },
+                {
+                  name: "Payee",
+                  key: "payee",
+                  type: "input",
+                },
+                {
+                  name: "Amount",
+                  key: "amount",
+                  type: "input",
+                },
+                {
+                  name: "Note",
+                  key: "note",
+                  type: "input",
+                },
+                {
+                  name: "Category",
+                  key: "category",
+                  type: "input",
+                },
+                {
+                  name: "Mode of Payment",
+                  key: "bankName",
+                  type: "select",
+                },
+              ]}
+              content={{
+                button: "Add Transaction",
+                heading: "Expense Details",
+              }}
+            />
           </div>
         </div>
       </div>

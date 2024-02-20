@@ -33,3 +33,8 @@
     align-self: flex-start; /* Aligns the button to the start of the form */
   }
   
+
+  .HeadingWrapper{
+    font-size: 14px;
+    font-weight: 600;
+  }

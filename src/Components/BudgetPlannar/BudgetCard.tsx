@@ -48,7 +48,7 @@ export const BudgetCard: React.FC<BudgetCardProps> = ({
   }, [data]);
 
   if (!card) {
-    return <div>Loading...</div>;
+    return <div className={styles.BudgetPlannarCard}>Loading...</div>;
   }
 
   return (

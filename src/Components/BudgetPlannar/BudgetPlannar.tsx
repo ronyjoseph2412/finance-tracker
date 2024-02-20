@@ -7,43 +7,9 @@ import { Box, Typography } from "@mui/material";
 import { cookies } from "next/headers";
 import { getUserFinancials } from "@/services/getUserFinancials";
 import BudgetCard from "./BudgetCard";
+import SetBudget from "./SetBudget";
+import { AddTransaction } from "../DashboardComponents/UpperSection/AddTransaction";
 export type BudgetPlannarProps = {};
-const budgetPlannarCardsData = [
-  {
-    goal: "Emergency Fund",
-    requiredAmount: 15000,
-    currentAmount: 3000,
-    investmentsData: [
-      {
-        amount: 1000,
-        type: "Savings Account",
-        name: "Federal Bank",
-      },
-      {
-        amount: 2000,
-        type: "Savings Account",
-        name: "Federal Bank",
-      },
-    ],
-  },
-  {
-    goal: "Buy a iPhone",
-    requiredAmount: 80000,
-    currentAmount: 30000,
-    investmentsData: [
-      {
-        amount: 1000,
-        type: "Savings Account",
-        name: "Federal Bank",
-      },
-      {
-        amount: 2000,
-        type: "Savings Account",
-        name: "Federal Bank",
-      },
-    ],
-  },
-];
 
 export const BudgetPlannar: React.FC<BudgetPlannarProps> = async ({}) => {
   const token = cookies().get("authorization")?.value ?? "";
@@ -64,24 +30,6 @@ export const BudgetPlannar: React.FC<BudgetPlannarProps> = async ({}) => {
             currentAmount: number;
           }) => {
             return (
-              // <div className={styles.BudgetPlannarCard} key={card.goal}>
-              //   <div className={styles.Goal}>{card.goal}</div>
-              //   <Box display="flex" justifyContent="center" alignItems="center">
-              //     <CircularProgress
-              //       style={{ padding: "10px" }}
-              //       value={(card.currentAmount * 100) / card.requiredAmount}
-              //       variant="determinate"
-              //     />
-              //     <Typography position="absolute">
-              //       {Math.ceil((card.currentAmount * 100) / card.requiredAmount)}%
-              //     </Typography>
-              //   </Box>
-              //   <div>
-              //     <span className={styles.Amount}>
-              //       {`${currencySymbol.INDIA} ${card.currentAmount} / ${currencySymbol.INDIA} ${card.requiredAmount}`}
-              //     </span>
-              //   </div>
-              // </div>
               <BudgetCard
                 id={card.investment_id}
                 goal={card.goal}
@@ -105,20 +53,30 @@ export const BudgetPlannar: React.FC<BudgetPlannarProps> = async ({}) => {
         >
           <div className={styles.Goal}>View All</div>
         </div>
-        <div
-          className={styles.BudgetPlannarCard}
-          style={{
-            height: "fit-content",
-            display: "flex",
-            justifyContent: "flex-start",
-            alignItems: "flex-start",
-            padding: "1rem",
-            width: "87%",
-            cursor: "pointer",
+        <AddTransaction
+          token={token}
+          fields={[
+            {
+              name: "Date",
+              key: "date",
+              type: "calendar",
+            },
+            {
+              name: "Budget Title",
+              key: "goal",
+              type: "input",
+            },
+            {
+              name: "Goal Amount",
+              key: "requiredAmount",
+              type: "input",
+            },
+          ]}
+          content={{
+            button: "Create New",
+            heading: "Set a new Budget",
           }}
-        >
-          <div className={styles.Goal}>Create new</div>
-        </div>
+        />
       </div>
     </div>
   );

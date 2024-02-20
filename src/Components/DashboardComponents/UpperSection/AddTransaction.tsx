@@ -8,40 +8,9 @@ import { Button, TextField, MenuItem } from "@mui/material";
 import styles from "./AddTransaction.module.css";
 import { addExpense } from "@/services/addExpense";
 import staticData from "@/staticData";
+import { createNewBudget } from "@/services/createNewBudget";
 
-const fields = [
-  {
-    name: "Date",
-    key: "date",
-    type: "calendar",
-  },
-  {
-    name: "Payee",
-    key: "payee",
-    type: "input",
-  },
-  {
-    name: "Amount",
-    key: "amount",
-    type: "input",
-  },
-  {
-    name: "Note",
-    key: "note",
-    type: "input",
-  },
-  {
-    name: "Category",
-    key: "category",
-    type: "input",
-  },
-  {
-    name: "Mode of Payment",
-    key: "bankName",
-    type: "select",
-  },
-];
-export const AddTransaction = ({ token }) => {
+export const AddTransaction = ({ token, fields, content }) => {
   const dispatch = useDispatch();
   const { popUpState } = useAppSelector((state) => state.popupReducer);
   const formRef = useRef(null);
@@ -51,25 +20,45 @@ export const AddTransaction = ({ token }) => {
     fields.forEach((field) => {
       formValues[field.key] = formRef.current[field.key]?.value;
     });
-    const date = new Date(formValues.date);
-    const formattedDate = `${
-      date.getMonth() + 1
-    }/${date.getDate()}/${date.getFullYear()}`;
-    const Formdata = {
-      date: formattedDate,
-      payee: formValues.payee,
-      note: formValues.note,
-      category: formValues.category,
-      amount: parseFloat(formValues.amount),
-      bankName: formValues.bankName,
-    };
+    if (content.heading === "Expense Details") {
+      const date = new Date(formValues.date);
+      const formattedDate = `${
+        date.getMonth() + 1
+      }/${date.getDate()}/${date.getFullYear()}`;
+      const Formdata = {
+        date: formattedDate,
+        payee: formValues.payee,
+        note: formValues.note,
+        category: formValues.category,
+        amount: parseFloat(formValues.amount),
+        bankName: formValues.bankName,
+      };
 
-    const response = await addExpense(token, Formdata);
-    if (response?.username) {
-      dispatch(updatePopUpState(false));
-      window.location.reload();
-    } else {
-      window.alert("Error in adding transaction");
+      const response = await addExpense(token, Formdata);
+      if (response?.username) {
+        dispatch(updatePopUpState(false));
+        window.location.reload();
+      } else {
+        window.alert("Error in adding transaction");
+      }
+    } else if (content.heading === "Set a new Budget") {
+      const date = new Date(formValues.date);
+      const formattedDate = `${
+        date.getMonth() + 1
+      }/${date.getDate()}/${date.getFullYear()}`;
+      const Formdata = {
+        date: formattedDate,
+        goal: formValues.goal,
+        requiredAmount: parseFloat(formValues.requiredAmount),
+      };
+
+      const response = await createNewBudget(token, Formdata);
+      if (response?.username) {
+        dispatch(updatePopUpState(false));
+        window.location.reload();
+      } else {
+        window.alert("Error in adding transaction");
+      }
     }
   };
 
@@ -81,7 +70,7 @@ export const AddTransaction = ({ token }) => {
         dispatch(
           updatePopUpComponent(
             <div className={styles.Wrapper}>
-              <div>Expense Details</div>
+              <div className={styles.HeadingWrapper}>{content.heading}</div>
               <form ref={formRef}>
                 {fields.map((field) => (
                   <div key={field.key} className={styles.Field}>
@@ -122,7 +111,7 @@ export const AddTransaction = ({ token }) => {
         );
       }}
     >
-      Add Transaction
+      {content.button}
     </Button>
   );
 };
