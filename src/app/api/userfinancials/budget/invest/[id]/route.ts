@@ -1,3 +1,4 @@
+import { usersRepo } from "@/Utils/server";
 import { jwtMiddleware } from "@/Utils/server/api";
 import { userInvestmentsRepo } from "@/Utils/server/userInvestments-repo";
 import { NextResponse } from "next/server";
@@ -22,7 +23,9 @@ export async function GET(request: any, { params: { investment_id } }: any) {
 
 export async function POST(request: any, { params: { id } }: any) {
   // Get Path from request
-  const User_ID = await jwtMiddleware(request);
+  await jwtMiddleware(request);
+  const User_ID = await usersRepo.getCurrent();
+  const fetched_user = await usersRepo.getById(User_ID);
   const body = await request.json();
 
   if (!User_ID) {
@@ -32,7 +35,11 @@ export async function POST(request: any, { params: { id } }: any) {
     );
   } else {
     // const fetched_user = await usersRepo.getById(User_ID);
-    const res = await userInvestmentsRepo.UpdateInvestmentDataBudget(id, body);
+    const res = await userInvestmentsRepo.UpdateInvestmentDataBudget(
+      id,
+      body,
+      fetched_user.username
+    );
     return NextResponse.json(res, { status: 200 });
   }
 }

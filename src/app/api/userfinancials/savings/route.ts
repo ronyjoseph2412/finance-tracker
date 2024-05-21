@@ -14,7 +14,10 @@ export async function POST(req: any) {
     );
   } else {
     const fetched_user = await usersRepo.getById(User_ID);
-    const res = await userFinancialsRepo.createInvestments(fetched_user, body);
+    const res = await userFinancialsRepo.createInvestments(
+      fetched_user.username,
+      body
+    );
     return NextResponse.json(res, { status: 200 });
   }
 }

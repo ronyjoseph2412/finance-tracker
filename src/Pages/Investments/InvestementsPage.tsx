@@ -1,13 +1,20 @@
-import tempData from "@/tempData";
 import styles from "./InvestementsPage.module.css";
 import staticData from "@/staticData";
 import Image, { StaticImageData } from "next/image";
 import currencySymbol from "@/Utils/currencySymbol";
 import { Button } from "@mui/material";
 import BudgetPlannar from "@/Components/BudgetPlannar/BudgetPlannar";
+import { getLabelAmount } from "@/Utils/getLabelAmount";
+import { getUserFinancials } from "@/services/getUserFinancials";
+import { cookies } from "next/headers";
+import InvestmentsTable from "@/Components/InvestmentsTable/InvestmentsTable";
+import { timeStampedData } from "@/Utils/timeStampedData";
 export type InvestmentsPageProps = {};
 const investementsPageData = staticData.investmentsPage;
-export const InvestmentsPage: React.FC<InvestmentsPageProps> = ({}) => {
+export const InvestmentsPage: React.FC<InvestmentsPageProps> = async ({}) => {
+  const token = cookies().get("authorization")?.value ?? "";
+  const userFinancials = await getUserFinancials(token);
+  const investments = userFinancials?.investmentsData ?? [];
   const TrackerCard = (
     labelType: string,
     amount: number,
@@ -56,13 +63,18 @@ export const InvestmentsPage: React.FC<InvestmentsPageProps> = ({}) => {
               {investementsPageData.trackerCards.map((card) => {
                 return (
                   <div key={card.key}>
-                    {TrackerCard(card.key, 1500, card.assets)}
+                    {TrackerCard(
+                      card.key,
+                      getLabelAmount(card.key, userFinancials, 0, 0),
+                      card.assets
+                    )}
                   </div>
                 );
               })}
             </div>
             <div className={styles.ShadowCard} style={{ height: "50vh" }}>
               <div className={styles.HeadingTexts}>All Investments</div>
+              <InvestmentsTable data={timeStampedData(investments, true)} />
             </div>
           </div>
           <div

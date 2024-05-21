@@ -8,7 +8,7 @@ export const userFinancialsRepo = {
   updateIncomeData,
   updateExpenseData,
   createBudget,
-  
+  createInvestments,
 };
 
 async function getUserFinancialData(username: string) {
@@ -42,9 +42,20 @@ async function createBudget(username: string, budget: any) {
   const UserFinancialData = await UserFinancials.findOne(query);
   const investment_id = new ObjectId();
   budget.investment_id = investment_id;
+  budget.currentAmount = 0;
   UserFinancialData.budgetData.push(budget);
   await userInvestmentsRepo.createInvestment(investment_id);
   await UserFinancialData.save();
   return UserFinancialData;
 }
 
+async function createInvestments(username: string, investment: any) {
+  var regex = new RegExp(username, "i"),
+    query = { username: regex };
+
+  const UserFinancialData = await UserFinancials.findOne(query);
+  investment.investment_id = new ObjectId();
+  UserFinancialData.investmentsData.push(investment);
+  await UserFinancialData.save();
+  return UserFinancialData;
+}

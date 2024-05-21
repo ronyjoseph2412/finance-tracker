@@ -21,7 +21,7 @@ const Navbar: React.FC = () => {
         </div>
         <div className={styles.Links}>
           {navbarOptions.map((option, index) => {
-            if (option.type === "link") {
+            if (option.type === "link" || option.type === "dropdown") {
               return (
                 <Link
                   href={option.path}

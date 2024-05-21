@@ -62,7 +62,7 @@ export default async function Page() {
           username: data.username,
         })
       );
-      router.push("/");
+      router.push("/dashboard");
     }
   };
 

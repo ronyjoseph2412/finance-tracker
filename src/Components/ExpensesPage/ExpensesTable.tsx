@@ -1,130 +1,134 @@
-// components/ExpenseTable.tsx
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
+import { useTable } from "react-table";
 import {
-  useTable,
-  useSortBy,
-  useGlobalFilter,
-  usePagination,
-} from "react-table";
-import {
-  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
-  Button,
+  Paper,
 } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import { useAppSelector } from "@/lib/hooks";
+import { filterTransactionsbyDate } from "@/Utils/DatefilterTransactions";
+import staticData from "@/staticData";
+import { timeStampedData } from "@/Utils/timeStampedData";
+import { sortAllTransactions } from "@/Utils/sortTransactions";
 
-interface Expense {
+interface Transaction {
   date: string;
-  business: string;
-  tags: string;
+  payee: string;
+  note: string;
+  category: string;
   amount: number;
+  bankName: string;
 }
 
-interface ExpenseTableProps {
-  data: Expense[];
+interface Props {
+  data: Transaction[];
 }
 
-const ExpenseTable: React.FC<ExpenseTableProps> = ({ data }) => {
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    prepareRow,
-    state,
-    setGlobalFilter,
-    page,
-    nextPage,
-    previousPage,
-    canNextPage,
-    canPreviousPage,
-  } = useTable<Expense>(
-    {
-      columns: [
-        { Header: "Date of Transaction", accessor: "date" },
-        { Header: "Person/Merchant", accessor: "business" },
-        { Header: "Category", accessor: "tags" },
-        { Header: "Amount", accessor: "amount" },
-      ],
-      data,
-    },
-    useGlobalFilter,
-    useSortBy,
-    usePagination
+const useStyles = makeStyles({
+  root: {
+    width: "100%",
+    overflowX: "auto",
+    height: "100%",
+    overflowY: "scroll",
+    boxShadow: "none",
+    border: "none",
+  },
+});
+
+const ExpensesTable: React.FC<Props> = ({ data }) => {
+  const { startDate, endDate, currentFilter } = useAppSelector(
+    (state) => state.transactionsReducer
   );
 
-  const { globalFilter, pageIndex } = state;
+  const startTimestamp = startDate ? startDate * 1000 : null;
+  const exndTimestamp = endDate ? endDate * 1000 : new Date().getTime();
+
+  let timestampedData = data.map((item: any) => {
+    return {
+      ...item,
+      date: new Date(item.date).getTime(),
+    };
+  });
+
+  const [expenditureData, setExpenditureData] = React.useState<Transaction[]>(
+    []
+  );
+
+  useEffect(() => {
+    const filteredData = filterTransactionsbyDate(
+      timestampedData,
+      currentFilter === staticData.transactionsFilterOptions[0] ? true : false,
+      startTimestamp,
+      exndTimestamp
+    );
+    setExpenditureData(filteredData);
+  }, [data, startDate, endDate]);
+
+  const columns = React.useMemo(
+    () => [
+      { Header: "Date", accessor: "date" },
+      { Header: "Payee", accessor: "payee" },
+      { Header: "Category", accessor: "category" },
+      { Header: "Amount", accessor: "amount" },
+    ],
+    []
+  );
+
+  const cellStyle = {
+    fontSize: "13px", // Adjust the font size as needed
+  };
+
+  const classes = useStyles();
+  const { getTableProps, headerGroups, rows, prepareRow } = useTable({
+    columns,
+    data: timeStampedData(sortAllTransactions(expenditureData, "Date"), true),
+  });
 
   return (
-    <div>
-      {/* <TextField
-        label="Search"
-        variant="outlined"
-        value={globalFilter || ""}
-        onChange={(e) => setGlobalFilter(e.target.value)}
-        style={{ margin: "16px 0" }}
-      /> */}
-
-      <TableContainer component={Paper}>
-        <Table {...getTableProps()} size="small">
-          <TableHead>
-            {headerGroups.map((headerGroup) => (
-              <TableRow {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <TableCell
-                    {...column.getHeaderProps(column.getSortByToggleProps())}
-                  >
-                    {column.render("Header")}
-                    <span>
-                      {column.isSorted
-                        ? column.isSortedDesc
-                          ? " 🔽"
-                          : " 🔼"
-                        : ""}
-                    </span>
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
-          </TableHead>
-          <TableBody {...getTableBodyProps()}>
-            {page.map((row) => {
-              prepareRow(row);
-              return (
-                <TableRow {...row.getRowProps()}>
-                  {row.cells.map((cell) => (
-                    <TableCell {...cell.getCellProps()}>
-                      {cell.render("Cell")}
+    <>
+      {expenditureData.length !== 0 ? (
+        <TableContainer component={Paper} className={classes.root}>
+          <Table {...getTableProps()}>
+            <TableHead>
+              {headerGroups.map((headerGroup) => (
+                <TableRow {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map((column) => (
+                    <TableCell {...column.getHeaderProps()}>
+                      {column.render("Header")}
                     </TableCell>
                   ))}
                 </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      {/* <div style={{ marginTop: "16px", textAlign: "right" }}>
-        <Button onClick={() => previousPage()} disabled={!canPreviousPage}>
-          Previous
-        </Button>{" "}
-        <Button onClick={() => nextPage()} disabled={!canNextPage}>
-          Next
-        </Button>{" "}
-        <span>
-          Page{" "}
-          <strong>
-            {pageIndex + 1} of {Math.ceil(data.length / 50)}
-          </strong>{" "}
-        </span>
-      </div> */}
-    </div>
+              ))}
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => {
+                prepareRow(row);
+                return (
+                  <TableRow {...row.getRowProps()}>
+                    {row.cells.map((cell) => {
+                      return (
+                        <TableCell {...cell.getCellProps()} style={cellStyle}>
+                          {cell.render("Cell")}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : (
+        <div>No Data</div>
+      )}
+    </>
   );
 };
 
-export default ExpenseTable;
+export default ExpensesTable;

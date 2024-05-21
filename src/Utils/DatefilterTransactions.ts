@@ -4,6 +4,15 @@ interface DataItem {
   date: number;
 }
 
+interface AlternativeDataItem {
+  date: number;
+  payee: string;
+  note: string;
+  category: string;
+  amount: number;
+  bankName: string;
+}
+
 interface FilterDataItemObject {
   tags: string[];
   totalAmount: number;
@@ -14,9 +23,18 @@ interface FilteredDataItem {
   [date: number]: FilterDataItemObject;
 }
 
+interface LabelDataItem {
+  type: string;
+  description: string;
+  amount: number;
+  frequency: string;
+  date: number;
+  paidBy: string;
+}
+
 // Check for fixing any type errors
 export const filterTransactionsbyDate = (
-  data: DataItem[],
+  data: DataItem[] | AlternativeDataItem[],
   defaultOption = true,
   startDate: number | null,
   endDate: number | null
@@ -84,8 +102,8 @@ export const getTransactionsofMonth = (
   month: number,
   year: number
 ) => {
-  const monthStart = new Date(year, month, 1).getTime();
-  const monthEnd = new Date(year, month + 1, 0).getTime();
+  const monthStart = new Date(year, month, 1).getTime() / 1000;
+  const monthEnd = new Date(year, month + 1, 0).getTime() / 1000;
   const filteredData = data.filter(
     (item) => item.date >= monthStart && item.date <= monthEnd
   );
@@ -96,7 +114,7 @@ export const getTransactionsofMonth = (
     };
   } = {};
   filteredData.forEach((item: any) => {
-    const day = new Date(item.date).getDate();
+    const day = new Date(item.date * 1000).getDate();
     if (!structuredData[day]) {
       structuredData[day] = {
         totalAmount: item.amount,
@@ -107,4 +125,18 @@ export const getTransactionsofMonth = (
   });
 
   return structuredData;
+};
+
+export const getTransactionsofMonthforLabels = (
+  data: LabelDataItem[],
+  month: number,
+  year: number
+) => {
+  const monthStart = new Date(year, month, 1).getTime() / 1000;
+  const monthEnd = new Date(year, month + 1, 0).getTime() / 1000;
+  const filteredData = data.filter(
+    (item) => item.date >= monthStart && item.date <= monthEnd
+  );
+
+  return filteredData;
 };

@@ -6,10 +6,10 @@ import { AddTransaction } from "./AddTransaction";
 import TrackingCalendar from "@/Components/Calendar/TrackingCalendar";
 import Image, { StaticImageData } from "next/image";
 import { getLabelAmount } from "@/Utils/getLabelAmount";
-import { useAppSelector } from "@/lib/hooks";
 import { getUserData } from "@/services/getUserData";
 import { cookies } from "next/headers";
 import { getUserFinancials } from "@/services/getUserFinancials";
+import { getTransactionsSummary } from "@/Utils/getTransactionsSummary";
 const trackerCards = staticData.trackerCards;
 
 export type UpperSectionProps = {};
@@ -28,7 +28,7 @@ const TrackerCard = (
 ) => {
   return (
     <div className={styles.TrackerCard}>
-      <div>{labelType}</div>
+      <div>{labelType === "Income" ? "Earnings" : labelType}</div>
       <div>
         <span
           style={{
@@ -58,7 +58,8 @@ export const UpperSection: React.FC<UpperSectionProps> = async ({}) => {
   const token = cookies().get("authorization")?.value ?? "";
   const userData = await getUserData(token);
   const userFinancials = await getUserFinancials(token);
-  console.log(userData, userFinancials);
+  const financialSummary = getTransactionsSummary(userFinancials);
+  const currentDate = new Date();
   return (
     <div className={styles.Wrapper}>
       <div className={styles.RowWrapper}>
@@ -75,7 +76,45 @@ export const UpperSection: React.FC<UpperSectionProps> = async ({}) => {
         <div className={styles.ColumnWrapper}>
           {/* <div>MonthPicker [This Month]</div> */}
           <div>
-            <AddTransaction />
+            <AddTransaction
+              token={token}
+              fields={[
+                {
+                  name: "Date",
+                  key: "date",
+                  type: "calendar",
+                },
+                {
+                  name: "Payee",
+                  key: "payee",
+                  type: "input",
+                },
+                {
+                  name: "Amount",
+                  key: "amount",
+                  type: "input",
+                },
+                {
+                  name: "Note",
+                  key: "note",
+                  type: "input",
+                },
+                {
+                  name: "Category",
+                  key: "category",
+                  type: "input",
+                },
+                {
+                  name: "Mode of Payment",
+                  key: "bankName",
+                  type: "select",
+                },
+              ]}
+              content={{
+                button: "Add Transaction",
+                heading: "Expense Details",
+              }}
+            />
           </div>
         </div>
       </div>
@@ -88,7 +127,12 @@ export const UpperSection: React.FC<UpperSectionProps> = async ({}) => {
                   <div key={card.key}>
                     {TrackerCard(
                       card.key,
-                      getLabelAmount(card.key),
+                      getLabelAmount(
+                        card.key,
+                        userFinancials,
+                        currentDate.getMonth(),
+                        currentDate.getFullYear()
+                      ),
                       card.assets
                     )}
                   </div>
