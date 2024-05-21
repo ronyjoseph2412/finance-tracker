@@ -1,7 +1,7 @@
 // Pending Route
+import { apiHandler } from "@/Utils/server/api";
 import { cookies } from "next/headers";
 
-import { apiHandler } from "_helpers/server/api";
 
 module.exports = apiHandler({
   POST: logout,
