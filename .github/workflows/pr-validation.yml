@@ -1,0 +1,69 @@
+name: PR Description Validator
+
+on:
+  pull_request:
+    branches:
+      - master
+    types: [opened, synchronize, reopened, edited]
+
+jobs:
+  validate-pr-description:
+    name: Validate PR Description
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up workspace
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "latest"  # Use the latest version of Node.js
+
+      - name: Validate PR Description
+        run: |
+          # Write the Node.js script to a file and execute it
+          cat << 'EOF' > validate-pr.mjs
+          import { readFileSync } from 'fs';
+          const path = process.env.GITHUB_EVENT_PATH;
+          const data = JSON.parse(readFileSync(path));
+
+          const prDescription = data.pull_request.body || '';  // Default to empty string if body is null
+          console.log('--- PR Description ---');
+          console.log(prDescription);
+
+          if (!prDescription) {
+            console.log('❌ PR description is empty or null!');
+            process.exit(1);
+          }
+
+          // Check if a Markdown image is included in the PR description
+          const markdownImagePattern = /!\[.*\]\(.*\)/;
+          const htmlImagePattern = /<img\s+[^>]*src="[^"]+"[^>]*>/;
+
+          const hasMarkdownImage = markdownImagePattern.test(prDescription);
+          const hasHtmlImage = htmlImagePattern.test(prDescription);
+
+          console.log('Checking for screenshot...');
+          if (hasMarkdownImage || hasHtmlImage) {
+            console.log('✅ Screenshot (Markdown or HTML) is attached.');
+          } else {
+            console.log('❌ Screenshot (Markdown or HTML) not found!');
+            process.exit(1);
+          }
+
+          // Check if the Playwright test case checkbox is ticked
+          const checkboxPattern = /- \[x\] Ran all Playwright test cases and they have passed\./;
+          const isPlaywrightChecked = checkboxPattern.test(prDescription);
+          console.log('Checking for Playwright test case confirmation...');
+          if (isPlaywrightChecked) {
+            console.log('✅ Playwright test case confirmation is present.');
+          } else {
+            console.log('❌ Playwright test case confirmation is NOT present!');
+            process.exit(1);
+          }
+
+          console.log('🎉 PR description is valid!');
+          EOF
+
+          # Run the Node.js script
+          node validate-pr.mjs
