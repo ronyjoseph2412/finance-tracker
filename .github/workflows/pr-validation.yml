@@ -17,31 +17,37 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "latest" # Use the latest version of Node.js
+          node-version: "latest"  # Use the latest version of Node.js
 
       - name: Validate PR Description
         run: |
-          # Echo the received PR body
-          echo "Fetching the PR description..."
-
-          # Use Node.js to parse the PR description
-          node -e "
+          # Write the Node.js script to a file and execute it
+          cat << 'EOF' > validate-pr.js
           const fs = require('fs');
           const path = process.env.GITHUB_EVENT_PATH;
           const data = JSON.parse(fs.readFileSync(path));
-          const prDescription = data.pull_request.body;
 
+          const prDescription = data.pull_request.body || '';  // Default to empty string if body is null
           console.log('--- PR Description ---');
           console.log(prDescription);
 
-          // Check if a screenshot is included in the PR description (Markdown image)
-          const imagePattern = /!\[image\]\(.*\)/;
-          const hasImage = imagePattern.test(prDescription);
+          if (!prDescription) {
+            console.log('❌ PR description is empty or null!');
+            process.exit(1);
+          }
+
+          // Check if a Markdown image is included in the PR description
+          const markdownImagePattern = /!\[.*\]\(.*\)/;
+          const htmlImagePattern = /<img\s+[^>]*src="[^"]+"[^>]*>/;
+
+          const hasMarkdownImage = markdownImagePattern.test(prDescription);
+          const hasHtmlImage = htmlImagePattern.test(prDescription);
+
           console.log('Checking for screenshot...');
-          if (hasImage) {
-            console.log('✅ Screenshot is attached.');
+          if (hasMarkdownImage || hasHtmlImage) {
+            console.log('✅ Screenshot (Markdown or HTML) is attached.');
           } else {
-            console.log('❌ Screenshot not found!');
+            console.log('❌ Screenshot (Markdown or HTML) not found!');
             process.exit(1);
           }
 
@@ -57,4 +63,7 @@ jobs:
           }
 
           console.log('🎉 PR description is valid!');
-          "
+          EOF
+
+          # Run the Node.js script
+          node validate-pr.js
