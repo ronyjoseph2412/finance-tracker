@@ -1,8 +1,10 @@
-name: PR Description Validator
+name: PR Validation on Development Branch
 
 on:
   pull_request:
-    types: [opened, edited, reopened]
+    branches:
+      - master
+    types: [opened, synchronize, reopened]
 
 jobs:
   validate-pr-description:
