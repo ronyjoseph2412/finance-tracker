@@ -22,10 +22,10 @@ jobs:
       - name: Validate PR Description
         run: |
           # Write the Node.js script to a file and execute it
-          cat << 'EOF' > validate-pr.js
-          const fs = require('fs');
+          cat << 'EOF' > validate-pr.mjs
+          import { readFileSync } from 'fs';
           const path = process.env.GITHUB_EVENT_PATH;
-          const data = JSON.parse(fs.readFileSync(path));
+          const data = JSON.parse(readFileSync(path));
 
           const prDescription = data.pull_request.body || '';  // Default to empty string if body is null
           console.log('--- PR Description ---');
@@ -66,4 +66,4 @@ jobs:
           EOF
 
           # Run the Node.js script
-          node validate-pr.js
+          node validate-pr.mjs
