@@ -1,4 +1,3 @@
-# PR Validation while raising a PR to the Development Brnach (staging)
 name: PR Validation on Development Branch
 
 on:
