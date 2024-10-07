@@ -12,38 +12,38 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        
+      - name: Validate PR Description and Check Screenshot
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const core = require('@actions/core');
+            const pr = await github.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number
+            });
 
- - name: Validate PR Description and Check Screenshot
-      uses: actions/github-script@v6
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          const core = require('@actions/core');
-          const pr = await github.pulls.get({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            pull_number: context.payload.pull_request.number
-          });
+            const prBody = pr.data.body || '';
 
-          const prBody = pr.data.body || '';
+            // Check if Playwright test checkbox is ticked
+            const checkboxPattern = /- \[x\] Ran all Playwright test cases and they have passed\./;
+            if (!checkboxPattern.test(prBody)) {
+              core.setFailed("Playwright test case checkbox is NOT ticked!");
+            } else {
+              console.log("✅ Playwright test case checkbox is ticked.");
+            }
 
-          // Check if Playwright test checkbox is ticked
-          const checkboxPattern = /- \[x\] Ran all Playwright test cases and they have passed\./;
-          if (!checkboxPattern.test(prBody)) {
-            core.setFailed("Playwright test case checkbox is NOT ticked!");
-          } else {
-            console.log("✅ Playwright test case checkbox is ticked.");
-          }
+            // Check if a screenshot is included
+            const screenshotPattern = /!\[.*\]\(.*\)/;
+            if (!screenshotPattern.test(prBody)) {
+              core.setFailed("Screenshot not found!");
+            } else {
+              console.log("✅ Screenshot is attached.");
+            }
 
-          // Check if a screenshot is included
-          const screenshotPattern = /!\[.*\]\(.*\)/;
-          if (!screenshotPattern.test(prBody)) {
-            core.setFailed("Screenshot not found!");
-          } else {
-            console.log("✅ Screenshot is attached.");
-          }
-
-          // Success message if both conditions are met
-          if (checkboxPattern.test(prBody) && screenshotPattern.test(prBody)) {
-            console.log("🎉 All checks passed. PR is valid!");
-          }
+            // Success message if both conditions are met
+            if (checkboxPattern.test(prBody) && screenshotPattern.test(prBody)) {
+              console.log("🎉 All checks passed. PR is valid!");
+            }
