@@ -58,31 +58,3 @@ jobs:
 
           console.log('🎉 PR description is valid!');
           "
-
-      - name: Dry Run - Check PR Body Manually
-        run: |
-          # Simulating a dry run on the provided PR body for validation
-          echo "Running a dry run on the sample PR body..."
-
-          PR_BODY="# Pull Request Title\r\n\r\n## Description\r\n\r\n<!-- Please include a summary of the changes and the motivation behind them. -->\r\n\r\n## Related Issue\r\n\r\n<!-- If applicable, reference the issue number that this PR addresses. -->\r\n\r\n## Changes\r\n\r\n<!-- List the main changes made in this PR. -->\r\n\r\n- [ ] Change\r\n\r\n## Checklist\r\n\r\n- [x] Ran all Playwright test cases and they have passed.\r\n\r\n## Screenshots (Testcases)\r\n![image](https://github.com/user-attachments/assets/6bf2247b-e519-4f28-9dfc-fc2c6b788630)\r\n\r\n\r\n## Additional Notes\r\n\r\n"
-
-          echo "--- Simulated PR Body ---"
-          echo "$PR_BODY"
-
-          # Check for the screenshot in the PR body
-          if echo "$PR_BODY" | grep -q '!\[image\](.*)'; then
-            echo "✅ Dry Run: Screenshot is attached."
-          else
-            echo "❌ Dry Run: Screenshot not found!"
-            exit 1
-          fi
-
-          # Check if the Playwright checkbox is checked in the PR body
-          if echo "$PR_BODY" | grep -q '- \[x\] Ran all Playwright test cases and they have passed.'; then
-            echo "✅ Dry Run: Playwright test case confirmation is present."
-          else
-            echo "❌ Dry Run: Playwright test case confirmation is NOT present!"
-            exit 1
-          fi
-
-          echo "🎉 Dry run completed successfully!"
