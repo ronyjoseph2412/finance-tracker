@@ -1,53 +1,10 @@
-# name: PR Validation on Development Branch
-
-# on:
-#   pull_request:
-#     branches:
-#       - master
-#     types: [opened, synchronize, reopened]
-
-# jobs:
-#   pr-validation:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v4
-
-#       # Install jq tool to parse JSON
-#       - name: Install jq
-#         run: sudo apt-get install -y jq
-
-#       - name: Validate PR Description and Check Screenshot
-#         run: |
-#           # Extract PR body from the GitHub event payload using jq
-#           PR=$(jq -r ".pull_request.body" "$GITHUB_EVENT_PATH")
-
-#           # # Check if Playwright test checkbox is ticked
-#           # if echo "$PR_BODY" | grep -q '\- \[x\] Ran all Playwright test cases and they have passed.'; then
-#           #   echo "✅ Playwright test case checkbox is ticked."
-#           # else
-#           #   echo "❌ Playwright test case checkbox is NOT ticked!"
-#           #   exit 1
-#           # fi
-
-#           # Check if a screenshot is included
-#           if echo "$PR_BODY" | grep -q '!\[.*\](.*)'; then
-#             echo "✅ Screenshot is attached."
-#           else
-#             echo "❌ Screenshot not found!"
-#             exit 1
-#           fi
-
-#           echo "🎉 All checks passed. PR is valid!"
-
-
 name: PR Description Validator
 
 on:
   pull_request:
     branches:
       - master
-    types: [opened, edited, reopened]
+    types: [opened, synchronize, reopened]
 
 jobs:
   validate-pr-description:
@@ -60,7 +17,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 'latest'  # Use the latest version of Node.js
+          node-version: "latest" # Use the latest version of Node.js
 
       - name: Validate PR Description for Screenshot
         run: |
