@@ -1,0 +1,49 @@
+# name: PR Validation on Development Branch
+
+# on:
+#   pull_request:
+#     branches:
+#       - master
+#     types: [opened, synchronize, reopened]
+
+# jobs:
+#   pr-validation:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+        
+#       - name: Validate PR Description and Check Screenshot
+#         uses: actions/github-script@v7
+#         with:
+#           github-token: ${{ secrets.GITHUB_TOKEN }}
+#           script: |
+#             const pr = await github.pulls.get({
+#               owner: context.repo.owner
+#               repo: context.repo.repo
+#               pull_number: context.payload.pull_request.number
+#             });
+
+#             const prBody = pr.data.body || '';
+
+#             // Check if Playwright test checkbox is ticked
+#             const checkboxPattern = /- \[x\] Ran all Playwright test cases and they have passed\./;
+#             if (!checkboxPattern.test(prBody)) {
+#               core.setFailed("Playwright test case checkbox is NOT ticked!");
+#             } else {
+#               console.log("✅ Playwright test case checkbox is ticked.");
+#             }
+
+#             // Check if a screenshot is included
+#             const screenshotPattern = /!\[.*\]\(.*\)/;
+#             if (!screenshotPattern.test(prBody)) {
+#               core.setFailed("Screenshot not found!");
+#             } else {
+#               console.log("✅ Screenshot is attached.");
+#             }
+
+#             // Success message if both conditions are met
+#             if (checkboxPattern.test(prBody) && screenshotPattern.test(prBody)) {
+#               console.log("🎉 All checks passed. PR is valid!");
+#             }
+
