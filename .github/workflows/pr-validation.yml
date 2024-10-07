@@ -1,0 +1,56 @@
+# PR Validation while raising a PR to the Development Brnach (staging)
+name: PR Validation on Development Branch
+
+on:
+  pull_request:
+    branches:
+      - master
+    types: [opened, synchronize, reopened]
+
+jobs:
+  pr-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get PR Description
+        id: pr_data
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = await github.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number
+            });
+            return {
+            description: pr.data.body || ''
+            }
+      - name: Set PR Body Output
+          run: echo "PR_BODY=${{ steps.pr_data.outputs.body }}" >> $GITHUB_ENV
+      - name: Validate PR Description
+        id: validate-pr-description
+        run: |
+        PR_BODY="${{ steps.pr_data.outputs.body }}"
+        if echo "$PR_BODY" | grep -q '\- \[x\] Ran all Playwright test cases and they have passed.'; then
+          echo "Playwright test case confirmation found."
+        else
+          echo "Playwright test case confirmation not found!"
+          exit 1
+        fi
+     - name : Check Image of Testcases have been added
+       id: validate-pr-description-image
+       run: |
+       PR_BODY="${{ steps.pr_data.outputs.body }}"
+        if echo "$PR_BODY" | grep -q '!\[.*\](.*)'; then
+          echo "Screenshot found."
+        else
+          echo "Screenshot not found!"
+          exit 1
+        fi
+    
+    - name: Success
+      if: success()
+      run: echo "PR Validation Passed"
