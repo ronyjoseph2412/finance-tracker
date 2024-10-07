@@ -1,41 +1,31 @@
-name: PR Validation on Development Branch
+name: PR Description Validator
 
 on:
   pull_request:
-    branches:
-      - master
-    types: [opened, synchronize, reopened]
+    types: [opened, edited, reopened]
 
 jobs:
-  pr-validation:
+  validate-pr-description:
+    name: Validate PR Description
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Set up workspace
+        uses: actions/checkout@v2
 
-      # Install jq tool to parse JSON
-      - name: Install jq
-        run: sudo apt-get install -y jq
-
-      - name: Validate PR Description and Check Screenshot
+      - name: Validate PR Description for Screenshot
         run: |
-          # Extract PR body from the GitHub event payload using jq
-          PR_BODY=$(jq -r .pull_request.body < "${{ github.event_path }}")
+          # Ensure jq is installed
+          sudo apt-get install -y jq
 
-          # # Check if Playwright test checkbox is ticked
-          # if echo "$PR_BODY" | grep -q '\- \[x\] Ran all Playwright test cases and they have passed.'; then
-          #   echo "✅ Playwright test case checkbox is ticked."
-          # else
-          #   echo "❌ Playwright test case checkbox is NOT ticked!"
-          #   exit 1
-          # fi
+          # Fetch PR description using jq
+          PR_DESCRIPTION=$(jq -r ".pull_request.body" "$GITHUB_EVENT_PATH")
 
-          # Check if a screenshot is included
-          if echo "$PR_BODY" | grep -q '!\[.*\](.*)'; then
+          # Check if a screenshot is included in the PR description
+          if [[ "$PR_DESCRIPTION" == *'![*](*)'* ]]; then
             echo "✅ Screenshot is attached."
           else
             echo "❌ Screenshot not found!"
             exit 1
           fi
 
-          echo "🎉 All checks passed. PR is valid!"
+          echo "🎉 PR description is valid!"
