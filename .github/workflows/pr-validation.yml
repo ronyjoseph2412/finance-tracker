@@ -12,14 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up workspace
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "latest" # Use the latest version of Node.js
 
-      - name: Validate PR Description for Screenshot
+      - name: Validate PR Description
         run: |
           # Use Node.js to parse the PR description
           PR_DESCRIPTION=$(node -e "const fs = require('fs'); const data = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH)); console.log(data.pull_request.body);")
@@ -29,6 +29,14 @@ jobs:
             echo "✅ Screenshot is attached."
           else
             echo "❌ Screenshot not found!"
+            exit 1
+          fi
+
+          # Check if the Playwright test case checkbox is ticked
+          if [[ "$PR_DESCRIPTION" =~ "- \[x\] Ran all Playwright test cases and they have passed." ]]; then
+            echo "✅ Playwright test case confirmation is present."
+          else
+            echo "❌ Playwright test case confirmation is NOT present!"
             exit 1
           fi
 
