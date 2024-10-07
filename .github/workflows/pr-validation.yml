@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - master
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, edited]
 
 jobs:
   validate-pr-description:
@@ -30,10 +30,10 @@ jobs:
           const path = process.env.GITHUB_EVENT_PATH;
           const data = JSON.parse(fs.readFileSync(path));
           const prDescription = data.pull_request.body;
-          
+
           console.log('--- PR Description ---');
           console.log(prDescription);
-          
+
           // Check if a screenshot is included in the PR description (Markdown image)
           const imagePattern = /!\[image\]\(.*\)/;
           const hasImage = imagePattern.test(prDescription);
@@ -63,9 +63,9 @@ jobs:
         run: |
           # Simulating a dry run on the provided PR body for validation
           echo "Running a dry run on the sample PR body..."
-          
+
           PR_BODY="# Pull Request Title\r\n\r\n## Description\r\n\r\n<!-- Please include a summary of the changes and the motivation behind them. -->\r\n\r\n## Related Issue\r\n\r\n<!-- If applicable, reference the issue number that this PR addresses. -->\r\n\r\n## Changes\r\n\r\n<!-- List the main changes made in this PR. -->\r\n\r\n- [ ] Change\r\n\r\n## Checklist\r\n\r\n- [x] Ran all Playwright test cases and they have passed.\r\n\r\n## Screenshots (Testcases)\r\n![image](https://github.com/user-attachments/assets/6bf2247b-e519-4f28-9dfc-fc2c6b788630)\r\n\r\n\r\n## Additional Notes\r\n\r\n"
-          
+
           echo "--- Simulated PR Body ---"
           echo "$PR_BODY"
 
